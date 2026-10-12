@@ -163,6 +163,41 @@ a {
   box-shadow: var(--shadow);
 }
 
+/* Erişte telleri: bölümün üst ve/veya alt kenarından sarkan, yatayda ek yeri olmayan şeritler.
+   Ortası boş kalır; metnin arkası sakin. */
+.noodles,
+.noodles-top,
+.noodles-bottom {
+  --band-h: 170px;
+  background-repeat: repeat-x;
+}
+.noodles {
+  background-image: var(--noodles-top), var(--noodles-bottom);
+  background-position: center top, center bottom;
+  background-size: auto var(--band-h), auto var(--band-h);
+}
+.noodles-top {
+  background-image: var(--noodles-top);
+  background-position: center top;
+  background-size: auto var(--band-h);
+}
+.noodles-bottom {
+  background-image: var(--noodles-bottom);
+  background-position: center bottom;
+  background-size: auto var(--band-h);
+}
+@media (min-width: 900px) {
+  .noodles,
+  .noodles-top,
+  .noodles-bottom {
+    --band-h: 230px;
+  }
+}
+/* Başlıklar tellerin üstüne binmesin */
+.section.noodles {
+  padding-block: calc(var(--band-h) * 0.8);
+}
+
 .card {
   background: var(--card);
   border-radius: var(--r-card);

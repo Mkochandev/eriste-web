@@ -50,7 +50,8 @@
   --shadow-lg: 0 2px 4px rgba(21, 19, 26, 0.05), 0 28px 60px -20px rgba(21, 19, 26, 0.22);
   --placeholder: #e3e1e8;
   --placeholder-text: #7a7681;
-  --noodle-tile: url('/brand/noodles-tile-krem.svg');
+  --noodles-top: url('/brand/noodles-top-krem.svg');
+  --noodles-bottom: url('/brand/noodles-bottom-krem.svg');
   --bubble-bg: #15131a;
   --bubble-text: #f5f3f7;
   --chip-bg: #2a2733;
@@ -79,7 +80,8 @@
     --shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.3), 0 28px 60px -20px rgba(0, 0, 0, 0.7);
     --placeholder: #2a2731;
     --placeholder-text: #8d8995;
-    --noodle-tile: url('/brand/noodles-tile-koyu.svg');
+    --noodles-top: url('/brand/noodles-top-koyu.svg');
+    --noodles-bottom: url('/brand/noodles-bottom-koyu.svg');
     --bubble-bg: #26232d;
     --chip-bg: #3a3643;
     /* Koyu zeminde krem kâse */
@@ -103,7 +105,8 @@
   --btn-text: var(--ink);
   --placeholder: #2a2731;
   --placeholder-text: #8d8995;
-  --noodle-tile: url('/brand/noodles-tile-koyu.svg');
+  --noodles-top: url('/brand/noodles-top-koyu.svg');
+  --noodles-bottom: url('/brand/noodles-bottom-koyu.svg');
   --bubble-bg: #26232d;
   --chip-bg: #3a3643;
   --kase-govde: #f5f3f7;

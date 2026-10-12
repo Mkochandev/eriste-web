@@ -35,7 +35,7 @@ const steps: { pose: Pose; title: string; text: string; alt: string }[] = [
 ];
 ---
 
-<section id="nasil-calisir" class="steps section" aria-labelledby="steps-title">
+<section id="nasil-calisir" class="steps section noodles" aria-labelledby="steps-title">
   <div class="wrap">
     <div class="section-head">
       <span class="pill">Nasıl çalışır?</span>
@@ -65,8 +65,6 @@ const steps: { pose: Pose; title: string; text: string; alt: string }[] = [
 <style>
   .steps {
     background-color: var(--bg-warm);
-    background-image: var(--noodle-tile);
-    background-size: 380px;
   }
   .rail {
     --pad: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));

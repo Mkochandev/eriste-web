@@ -124,14 +124,94 @@ const mark = (text, stroke, stick) =>
 fs.writeFileSync(path.join(brandDir, 'wordmark-acik.svg'), mark('#C8312A', '#F2F1F4', '#15131A'));
 fs.writeFileSync(path.join(brandDir, 'wordmark-koyu.svg'), mark('#F5F3F7', '#15131A', '#E2B07A'));
 
-// ---------- 3. Teller deseni (döşeme) ----------
-const tile = (color, opacity) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" fill="none" stroke-linecap="round" stroke-linejoin="round">` +
+// ---------- 3. Kenar şeritleri: bölümlerin üstünden/altından sarkan teller ----------
+// Karo deseni yerine yalnızca yatayda tekrar eden geniş şeritler. Yatay teller periyodik
+// (frekanslar şerit genişliğinin tam katı), bu yüzden tekrar noktasında ek yeri görünmez.
+const BAND_W = 1600;
+const BAND_H = 260;
+const f1 = (n) => +n.toFixed(1);
+
+// Noktalardan Catmull-Rom ile yumuşak kübik Bézier
+function smooth(pts) {
+  let d = `M${f1(pts[0][0])} ${f1(pts[0][1])}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] ?? pts[i];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[i + 2] ?? p2;
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ` C${f1(c1[0])} ${f1(c1[1])} ${f1(c2[0])} ${f1(c2[1])} ${f1(p2[0])} ${f1(p2[1])}`;
+  }
+  return d;
+}
+
+// Yatay tel: y = y0 + a1·sin(2πk1x/W + p1) + a2·sin(2πk2x/W + p2), k tam sayı → periyodik
+function wave({ y0, a1, k1, p1 = 0, a2 = 0, k2 = 1, p2 = 0 }) {
+  const pts = [];
+  for (let x = -80; x <= BAND_W + 80; x += 20) {
+    const t = (2 * Math.PI * x) / BAND_W;
+    pts.push([x, y0 + a1 * Math.sin(k1 * t + p1) + a2 * Math.sin(k2 * t + p2)]);
+  }
+  return smooth(pts);
+}
+
+// Sarkan tel: kenardan girip hafifçe kıvrılarak iner, ucu Kıvırık'ın tepesi gibi kıvrılır
+function drip({ x, len, sway = 18, phase = 0, curl = 1, from = 'top' }) {
+  const pts = [];
+  for (let y = -30; y <= len; y += 18) {
+    pts.push([x + sway * Math.sin((y / len) * Math.PI * 1.6 + phase), y]);
+  }
+  let d = smooth(pts);
+  if (curl) {
+    const [ex, ey] = pts[pts.length - 1];
+    const s = curl; // 1: sağa, -1: sola kıvrılır
+    d += ` C${f1(ex)} ${f1(ey + 22)} ${f1(ex + 30 * s)} ${f1(ey + 28)} ${f1(ex + 34 * s)} ${f1(ey + 8)}` +
+      ` C${f1(ex + 37 * s)} ${f1(ey - 8)} ${f1(ex + 18 * s)} ${f1(ey - 12)} ${f1(ex + 14 * s)} ${f1(ey)}`;
+  }
+  if (from === 'bottom') {
+    // Dikeyde aynala: alttan yükselen tel
+    d = d.replace(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)/g, (_, X, Y) => `${X} ${f1(BAND_H - +Y)}`);
+  }
+  return d;
+}
+
+const TOP = [
+  [wave({ y0: 26, a1: 12, k1: 3, p1: 0.4, a2: 6, k2: 7, p2: 1.1 }), 13],
+  [wave({ y0: 70, a1: 16, k1: 2, p1: 2.2, a2: 7, k2: 5, p2: 0.3 }), 11],
+  [wave({ y0: 118, a1: 13, k1: 4, p1: 4.0, a2: 5, k2: 9, p2: 2.0 }), 10],
+  [drip({ x: 190, len: 190, phase: 0.2, curl: 1 }), 11],
+  [drip({ x: 560, len: 150, sway: 14, phase: 1.8, curl: 0 }), 10],
+  [drip({ x: 905, len: 205, phase: 3.1, curl: -1 }), 11],
+  [drip({ x: 1300, len: 165, sway: 16, phase: 0.9, curl: 1 }), 10],
+];
+const BOTTOM = [
+  [wave({ y0: BAND_H - 24, a1: 12, k1: 3, p1: 2.6, a2: 6, k2: 8, p2: 0.5 }), 13],
+  [wave({ y0: BAND_H - 68, a1: 15, k1: 2, p1: 0.9, a2: 7, k2: 6, p2: 2.4 }), 11],
+  [wave({ y0: BAND_H - 114, a1: 12, k1: 5, p1: 3.3, a2: 4, k2: 3, p2: 1.2 }), 10],
+  [drip({ x: 380, len: 175, phase: 2.4, curl: -1, from: 'bottom' }), 11],
+  [drip({ x: 760, len: 140, sway: 14, phase: 0.6, curl: 0, from: 'bottom' }), 10],
+  [drip({ x: 1120, len: 195, phase: 1.5, curl: 1, from: 'bottom' }), 11],
+  [drip({ x: 1480, len: 150, sway: 15, phase: 3.6, curl: 0, from: 'bottom' }), 10],
+];
+
+const band = (strands, tel, glow, opacity) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${BAND_W} ${BAND_H}" width="${BAND_W}" height="${BAND_H}" fill="none" stroke-linecap="round" stroke-linejoin="round">` +
   `<g opacity="${opacity}">` +
-  NOODLES.map(([d, w]) => `<path d="${d}" stroke="${color}" stroke-width="${+(w * 1.4).toFixed(1)}"/>`).join('') +
-  `</g></svg>`;
-fs.writeFileSync(path.join(brandDir, 'noodles-tile-krem.svg'), tile('#EDA82A', 0.4));
-fs.writeFileSync(path.join(brandDir, 'noodles-tile-koyu.svg'), tile('#FFC53D', 0.18));
+  strands.map(([d, w]) => `<path d="${d}" stroke="${tel}" stroke-width="${w}"/>`).join('') +
+  `<g opacity="0.7" transform="translate(-1.5 -1.5)">` +
+  strands.map(([d, w]) => `<path d="${d}" stroke="${glow}" stroke-width="${Math.max(2.5, Math.round(w * 0.28))}"/>`).join('') +
+  `</g></g></svg>`;
+
+const BANDS = {
+  krem: ['#EDA82A', '#FFD873', 0.42],
+  koyu: ['#FFC53D', '#FFE08A', 0.2],
+};
+for (const [name, [tel, glow, op]] of Object.entries(BANDS)) {
+  fs.writeFileSync(path.join(brandDir, `noodles-top-${name}.svg`), band(TOP, tel, glow, op));
+  fs.writeFileSync(path.join(brandDir, `noodles-bottom-${name}.svg`), band(BOTTOM, tel, glow, op));
+}
+for (const old of ['noodles-tile-krem.svg', 'noodles-tile-koyu.svg']) fs.rmSync(path.join(brandDir, old), { force: true });
 
 // ---------- 4. Favicon seti (gece varyantı) ----------
 const gece = variants.gece;
@@ -170,11 +250,9 @@ const slogan1 = textPath('Bütün aboneliklerin', { size: 64, baseline: 0, x: 0 
 const slogan2 = textPath('tek kâsede.', { size: 64, baseline: 70, x: 0 });
 const og =
   `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" stroke-linecap="round" stroke-linejoin="round">` +
-  `<defs><pattern id="tel" width="380" height="380" patternUnits="userSpaceOnUse">` +
-  `<g transform="scale(${380 / 512})" opacity="0.4">` +
-  NOODLES.map(([d, w]) => `<path d="${d}" stroke="#EDA82A" stroke-width="${+(w * 1.4).toFixed(1)}"/>`).join('') +
-  `</g></pattern></defs>` +
-  `<rect width="1200" height="630" fill="${krem}"/><rect width="1200" height="630" fill="url(#tel)"/>` +
+  `<rect width="1200" height="630" fill="${krem}"/>` +
+  `<g transform="translate(-180 -40) scale(1)">${band(TOP, '#EDA82A', '#FFD873', 0.42).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</g>` +
+  `<g transform="translate(-520 410) scale(1)">${band(BOTTOM, '#EDA82A', '#FFD873', 0.42).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</g>` +
   // Logo (kagit varyantı), yazı zemin renginde konturla telleri keser
   `<g transform="translate(20 20) scale(1.2)">` +
   `<path d="${WORDMARK}" fill="#C8312A" stroke="${krem}" stroke-width="30" paint-order="stroke"/>` +

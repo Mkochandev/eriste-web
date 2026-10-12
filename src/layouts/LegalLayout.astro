@@ -14,7 +14,7 @@ const body = addTableLabels(await Astro.slots.render('default'));
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="legal-hero">
+  <section class="legal-hero noodles-top">
     <div class="wrap narrow">
       <span class="pill">{kicker}</span>
       <h1>{title}</h1>
@@ -34,10 +34,9 @@ const body = addTableLabels(await Astro.slots.render('default'));
     max-width: 760px;
   }
   .legal-hero {
-    padding-block: 40px 36px;
+    --band-h: 120px;
+    padding-block: 72px 36px;
     background-color: var(--bg-warm);
-    background-image: var(--noodle-tile);
-    background-size: 380px;
     margin-bottom: 40px;
   }
   .legal-hero .wrap {

@@ -6,7 +6,7 @@ import PhoneFrame from '../PhoneFrame.astro';
 import ServiceTile from '../ServiceTile.astro';
 ---
 
-<section class="hero on-dark" aria-labelledby="hero-title">
+<section class="hero on-dark noodles-bottom" aria-labelledby="hero-title">
   {/* Uçuşan erişte telleri (dekoratif) */}
   <svg class="strands" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" fill="none" stroke-linecap="round" aria-hidden="true">
     <path class="s1" d="M-40 680 C120 620 220 720 380 690 C500 668 540 600 660 640" stroke="#FFC53D" stroke-width="10" />
@@ -59,17 +59,7 @@ import ServiceTile from '../ServiceTile.astro';
   .hero {
     position: relative;
     overflow: hidden;
-    background-image: var(--noodle-tile);
-    background-size: 400px;
-    padding-block: 24px 64px;
-  }
-  /* Teller deseni metnin arkasında okunurluğu bozmasın */
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(120% 70% at 20% 30%, rgba(21, 19, 26, 0.92), rgba(21, 19, 26, 0.55) 60%, rgba(21, 19, 26, 0.2));
-    pointer-events: none;
+    padding-block: 24px 96px;
   }
   .strands {
     position: absolute;
@@ -87,7 +77,7 @@ import ServiceTile from '../ServiceTile.astro';
   }
   @media (min-width: 960px) {
     .hero {
-      padding-block: 48px 96px;
+      padding-block: 48px 200px;
     }
     .grid {
       grid-template-columns: 1.1fr 1fr;
