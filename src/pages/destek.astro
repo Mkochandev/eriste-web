@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Kivirik from '../components/Kivirik.astro';
+import Bubble from '../components/Bubble.astro';
+import Faq from '../components/Faq.astro';
+import { SSS } from '../data/sss';
+import { LEGAL_PAGES, SUPPORT_EMAIL } from '../config';
+---
+
+<BaseLayout title="Destek ve SSS" description="erişte hakkında sık sorulan sorular ve destek iletişim adresi: destek@eriste.app">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="copy">
+        <span class="pill">Destek</span>
+        <h1>Bir şey mi takıldı?</h1>
+        <p>Önce aşağıdaki sorulara bir göz at. Cevabını bulamazsan bize yaz; e-postanı bir insan okur.</p>
+        <a class="mail card" href={`mailto:${SUPPORT_EMAIL}`}>
+          <span class="mail-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2" /><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </span>
+          <span>
+            <small>E-posta</small>
+            {SUPPORT_EMAIL}
+          </span>
+        </a>
+      </div>
+      <div class="art">
+        <Bubble tail="bottom-left" class="art-bubble">Ne soracaktın?</Bubble>
+        <Kivirik pose="selam" animate />
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap narrow block" aria-labelledby="sss">
+    <h2 id="sss">Sık sorulanlar</h2>
+    <Faq items={SSS} />
+  </section>
+
+  <section class="wrap narrow block" aria-labelledby="belgeler">
+    <h2 id="belgeler">Belgeler</h2>
+    <ul class="docs">
+      {
+        LEGAL_PAGES.filter((p) => p.href !== '/destek').map((p) => (
+          <li>
+            <a class="card" href={p.href}>
+              {p.label}
+              <span aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: 40px 48px;
+    background-color: var(--bg-warm);
+    background-image: var(--noodle-tile);
+    background-size: 380px;
+  }
+  .hero-grid {
+    display: grid;
+    gap: 24px;
+    align-items: center;
+  }
+  @media (min-width: 760px) {
+    .hero-grid {
+      grid-template-columns: 1.3fr 1fr;
+    }
+  }
+  .copy {
+    display: grid;
+    gap: 16px;
+    justify-items: start;
+  }
+  h1 {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+  .copy p {
+    color: var(--text-2);
+    font-size: 1.125rem;
+    max-width: 34ch;
+  }
+  .mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 22px 14px 14px;
+    border-radius: var(--r-card-sm);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    overflow-wrap: anywhere;
+  }
+  .mail span:last-child {
+    display: grid;
+    line-height: 1.2;
+  }
+  .mail small {
+    color: var(--text-2);
+    font-weight: 700;
+    font-size: 0.8125rem;
+  }
+  .mail-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--safran);
+    color: var(--ink);
+  }
+  .art {
+    position: relative;
+    max-width: 260px;
+    margin-inline: auto;
+    padding-top: 56px;
+  }
+  .art :global(.art-bubble) {
+    position: absolute;
+    top: 0;
+    right: -8px;
+  }
+  .narrow {
+    max-width: 760px;
+  }
+  .block {
+    padding-top: 56px;
+  }
+  .block:last-child {
+    padding-bottom: 80px;
+  }
+  .block h2 {
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
+    margin-bottom: 20px;
+  }
+  .docs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  @media (min-width: 560px) {
+    .docs {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .docs a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    border-radius: var(--r-card-sm);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+  .docs a span {
+    color: var(--accent-text);
+  }
+</style>

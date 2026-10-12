@@ -1,0 +1,155 @@
+---
+import Kivirik from '../Kivirik.astro';
+---
+
+<section class="section privacy on-dark" aria-labelledby="privacy-title">
+  <div class="wrap grid">
+    <div class="copy">
+      <span class="pill">Gizlilik</span>
+      <h2 id="privacy-title">Senin paran, senin bilgin.</h2>
+      <p>
+        erişte’nin bankanla işi yok. Aboneliklerini katalogdan seçersin; kart ya da banka bilgini, konumunu, rehberini istemeyiz. Uygulamada da bu sitede de
+        izleme yok.
+      </p>
+      <a href="/gizlilik" class="link">Gizlilik politikasını oku →</a>
+    </div>
+
+    <ul class="nos">
+      <li>
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 20 L24 10 L40 20 M10 20 H38 M14 24 V34 M24 24 V34 M34 24 V34 M8 38 H40" />
+            <path class="x" d="M6 6 L42 42" />
+          </svg>
+        </span>
+        <div>
+          <h3>Banka bağlamak yok</h3>
+          <p>Banka hesabı ya da kart bilgisi istemeyiz. Premium ödemesi bile Apple üzerinden; kart bilgin bize gelmez.</p>
+        </div>
+      </li>
+      <li>
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 20 V28 H14 L30 36 V12 L14 20 Z M36 18 C39 20 39 28 36 30" />
+            <path class="x" d="M6 6 L42 42" />
+          </svg>
+        </span>
+        <div>
+          <h3>Reklam yok</h3>
+          <p>Uygulamada reklam yok, reklam SDK’sı yok, reklam kimliğine dokunmayız.</p>
+        </div>
+      </li>
+      <li>
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 24 C10 14 17 10 24 10 C31 10 38 14 44 24 C38 34 31 38 24 38 C17 38 10 34 4 24 Z" />
+            <circle cx="24" cy="24" r="6" />
+            <path class="x" d="M6 6 L42 42" />
+          </svg>
+        </span>
+        <div>
+          <h3>İzleme yok</h3>
+          <p>Üçüncü taraf analitik yok, takip yok. Bu sitede çerez bile yok.</p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="kv">
+      <Kivirik pose="mutlu" label="Kıvırık mutlu" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .privacy {
+    position: relative;
+    background-image: var(--noodle-tile);
+    background-size: 400px;
+  }
+  .grid {
+    position: relative;
+    display: grid;
+    gap: 36px;
+  }
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: center;
+      column-gap: 56px;
+    }
+    .kv {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .nos {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
+  }
+  .copy {
+    display: grid;
+    gap: 16px;
+    justify-items: start;
+  }
+  h2 {
+    font-size: clamp(2rem, 8vw, 3.25rem);
+    color: #f5f3f7;
+  }
+  .copy p {
+    color: var(--text-2);
+    font-size: 1.0625rem;
+    max-width: 42ch;
+  }
+  .link {
+    color: var(--safran);
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-underline-offset: 4px;
+  }
+  .nos {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nos li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px;
+    border-radius: var(--r-card);
+    background: var(--card);
+  }
+  .ico {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    background: rgba(255, 197, 61, 0.12);
+    color: var(--safran);
+  }
+  .ico svg {
+    width: 32px;
+    height: 32px;
+  }
+  .ico .x {
+    stroke: var(--biber);
+    stroke-width: 4;
+  }
+  .nos h3 {
+    font-size: 1.25rem;
+    color: #f5f3f7;
+    margin: 4px 0 6px;
+  }
+  .nos p {
+    color: var(--text-2);
+    font-size: 0.9688rem;
+    line-height: 1.5;
+  }
+  .kv {
+    width: min(200px, 55vw);
+  }
+</style>

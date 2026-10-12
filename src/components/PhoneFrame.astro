@@ -1,0 +1,133 @@
+---
+// Telefon çerçevesi. `src` verilirse ekran görüntüsünü gösterir; verilmezse yer tutucu.
+// TODO: App Store ekran görüntüleri public/images/ altına gelince src ile bağlanacak.
+interface Props {
+  src?: string;
+  alt?: string;
+  label?: string;
+  class?: string;
+  eager?: boolean;
+}
+const { src, alt = '', label = 'Uygulama ekranı', class: className, eager = false } = Astro.props;
+---
+
+<div class:list={['phone', className]}>
+  <div class="screen">
+    {
+      src ? (
+        <img src={src} alt={alt} width="390" height="844" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+      ) : (
+        <div class="ph" role="img" aria-label={`${label} (görsel yakında)`}>
+          <span class="ph-bar w40" />
+          <span class="ph-big" />
+          {[0, 1, 2, 3].map(() => (
+            <span class="ph-row">
+              <span class="ph-tile" />
+              <span class="ph-lines">
+                <span class="ph-bar w70" />
+                <span class="ph-bar w40 thin" />
+              </span>
+            </span>
+          ))}
+          <span class="ph-label">{label}</span>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .phone {
+    --pw: 220px;
+    width: var(--pw);
+    aspect-ratio: 9 / 19;
+    padding: calc(var(--pw) * 0.04);
+    border-radius: calc(var(--pw) * 0.17);
+    background: #0b0a0e;
+    box-shadow:
+      0 0 0 2px #2c2934,
+      var(--shadow-lg);
+    flex: none;
+  }
+  .screen {
+    position: relative;
+    height: 100%;
+    border-radius: calc(var(--pw) * 0.13);
+    overflow: hidden;
+    background: var(--placeholder);
+  }
+  .screen::before {
+    /* Dinamik ada */
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 3.2%;
+    left: 50%;
+    width: 32%;
+    height: 3.6%;
+    transform: translateX(-50%);
+    border-radius: 99px;
+    background: #0b0a0e;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ph {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--pw) * 0.05);
+    height: 100%;
+    padding: calc(var(--pw) * 0.28) 9% 9%;
+  }
+  .ph-bar {
+    display: block;
+    height: calc(var(--pw) * 0.045);
+    border-radius: 99px;
+    background: var(--placeholder-text);
+    opacity: 0.35;
+  }
+  .ph-bar.thin {
+    height: calc(var(--pw) * 0.03);
+    opacity: 0.22;
+  }
+  .w40 {
+    width: 40%;
+  }
+  .w70 {
+    width: 70%;
+  }
+  .ph-big {
+    display: block;
+    height: calc(var(--pw) * 0.24);
+    border-radius: calc(var(--pw) * 0.06);
+    background: var(--placeholder-text);
+    opacity: 0.18;
+  }
+  .ph-row {
+    display: flex;
+    align-items: center;
+    gap: 8%;
+  }
+  .ph-tile {
+    flex: none;
+    width: calc(var(--pw) * 0.13);
+    aspect-ratio: 1;
+    border-radius: calc(var(--pw) * 0.04);
+    background: var(--placeholder-text);
+    opacity: 0.25;
+  }
+  .ph-lines {
+    flex: 1;
+    display: grid;
+    gap: calc(var(--pw) * 0.025);
+  }
+  .ph-label {
+    margin-top: auto;
+    align-self: center;
+    color: var(--placeholder-text);
+    font-size: calc(var(--pw) * 0.055);
+    font-weight: 600;
+  }
+</style>

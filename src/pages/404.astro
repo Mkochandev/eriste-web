@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Kivirik from '../components/Kivirik.astro';
+import Bubble from '../components/Bubble.astro';
+---
+
+<BaseLayout title="Sayfa bulunamadı" description="Aradığın sayfa bu kâsede yok." noindex>
+  <section class="nf wrap">
+    <div class="art">
+      <Bubble tail="bottom-left" class="nf-bubble">Bu sayfa kâsede yok!</Bubble>
+      <Kivirik pose="sasirmis" />
+    </div>
+    <span class="pill">404</span>
+    <h1>Aradığın sayfayı bulamadık.</h1>
+    <p>Belki taşındı, belki hiç yoktu. Ana sayfadan devam edebilirsin.</p>
+    <a class="btn" href="/">Ana sayfaya dön</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    display: grid;
+    justify-items: center;
+    gap: 16px;
+    text-align: center;
+    padding-block: 48px 96px;
+  }
+  .art {
+    position: relative;
+    width: min(240px, 70vw);
+    padding-top: 84px;
+    margin-bottom: 8px;
+  }
+  .art :global(.nf-bubble) {
+    position: absolute;
+    top: 0;
+    left: 48%;
+    width: max-content;
+    max-width: 170px;
+  }
+  h1 {
+    font-size: clamp(2rem, 8vw, 3rem);
+    max-width: 16ch;
+  }
+  p {
+    color: var(--text-2);
+    max-width: 36ch;
+  }
+</style>

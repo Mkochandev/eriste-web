@@ -1,0 +1,76 @@
+---
+import PhoneFrame from '../PhoneFrame.astro';
+
+// TODO: App Store ekran görüntüleri gelince her öğeye `src` (public/images/...) ekle.
+const screens = [
+  { label: 'Abonelik listesi', caption: 'Bütün abonelikler tek listede' },
+  { label: 'Katalog', caption: 'Servisi ve planı seç' },
+  { label: 'Kıvırık soruyor', caption: 'Birkaç kısa soru' },
+  { label: 'Zam kartı', caption: 'Zam olunca listende' },
+  { label: 'Toplam gider', caption: 'Aylık, yıllık, kategori kategori' },
+];
+---
+
+<section class="section screens" aria-labelledby="screens-title">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="pill">Ekranlar</span>
+      <h2 id="screens-title">Bir göz at.</h2>
+    </div>
+  </div>
+  <ul class="strip" tabindex="0" aria-label="Uygulama ekranları, yatay kaydırılabilir">
+    {
+      screens.map((s, i) => (
+        <li style={`--tilt: ${i % 2 ? 2 : -2}deg`}>
+          <PhoneFrame label={s.label} />
+          <span class="cap">{s.caption}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .screens {
+    overflow: hidden;
+  }
+  .strip {
+    --pad: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+    display: flex;
+    gap: 22px;
+    margin: 0;
+    padding: 16px var(--pad) 32px;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--pad);
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--placeholder-text) transparent;
+  }
+  .strip:focus-visible {
+    outline-offset: -3px;
+  }
+  li {
+    flex: none;
+    display: grid;
+    justify-items: center;
+    gap: 16px;
+    scroll-snap-align: start;
+  }
+  li :global(.phone) {
+    --pw: 200px;
+    transform: rotate(var(--tilt));
+    transition: transform 0.3s var(--ease);
+  }
+  li:hover :global(.phone) {
+    transform: rotate(0deg) translateY(-4px);
+  }
+  .cap {
+    max-width: 200px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9375rem;
+  }
+</style>

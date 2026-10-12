@@ -1,0 +1,293 @@
+---
+// Kıvırık maskotu. Taban çizim docs/eriste-web-proje-ozeti.md "Kıvırık (maskot) SVG"
+// bölümünden; pozlar aynı çizimin üstüne eklenen kol ve aksesuarlardan oluşur.
+//
+// Kâse renkleri zemine göre CSS değişkenlerinden gelir (--kase-govde/agiz/serit):
+// açık zeminde "gece", koyu zeminde "krem" kâse.
+
+export type Pose = 'selam' | 'mutlu' | 'sasirmis' | 'sec' | 'sor' | 'hatirlat' | 'zam' | 'tasarruf';
+
+interface Props {
+  pose?: Pose;
+  /** Verilirse role="img" + aria-label; verilmezse dekoratif (aria-hidden). */
+  label?: string;
+  /** El sallama / zil sallama gibi hafif hareketler */
+  animate?: boolean;
+  class?: string;
+}
+
+const { pose = 'selam', label, animate = false, class: className } = Astro.props;
+
+type Mood = 'selam' | 'mutlu' | 'sasirmis';
+const MOOD: Record<Pose, Mood> = {
+  selam: 'selam',
+  mutlu: 'mutlu',
+  sasirmis: 'sasirmis',
+  sec: 'selam',
+  sor: 'selam',
+  hatirlat: 'mutlu',
+  zam: 'sasirmis',
+  tasarruf: 'mutlu',
+};
+const mood = MOOD[pose];
+
+// Tek başına pozlar 240x230'a sığar; aksesuarlı pozlar yanlara taşar.
+const isBase = pose === 'selam' || pose === 'mutlu' || pose === 'sasirmis';
+const viewBox = isBase ? '0 0 240 230' : '-40 0 320 230';
+
+const T = '#FFC53D'; // safran
+const INK = '#15131A';
+---
+
+<svg
+  class:list={['kivirik', `pose-${pose}`, { animate }, className]}
+  viewBox={viewBox}
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  {...label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true', focusable: 'false' }}
+>
+  {/* ---------- Arkada kalan aksesuarlar ---------- */}
+
+  {
+    pose === 'sor' && (
+      <g class="bubble">
+        {/* Konuşma balonu: köşeler 20, kuyruk tarafındaki (sol alt) köşe 6 */}
+        <path
+          d="M200 2 H256 a20 20 0 0 1 20 20 V44 a20 20 0 0 1 -20 20 H186 a6 6 0 0 1 -6 -6 V22 a20 20 0 0 1 20 -20 Z"
+          style="fill:var(--bubble-bg)"
+        />
+        <path d="M184 56 L166 76 L198 64 Z" style="fill:var(--bubble-bg)" />
+        {/* "Kıvırık" etiketi, soru satırı, seçenek çipleri */}
+        <path d="M194 16 H216" stroke={T} stroke-width="5" />
+        <path d="M194 29 H258" stroke="#F5F3F7" stroke-width="6" />
+        <rect x="192" y="40" width="22" height="15" rx="5" style="fill:var(--chip-bg)" />
+        <rect x="219" y="40" width="22" height="15" rx="5" fill={T} />
+        <rect x="246" y="40" width="22" height="15" rx="5" style="fill:var(--chip-bg)" />
+      </g>
+    )
+  }
+
+  {/* ---------- Kollar (gövdenin arkasında) ---------- */}
+
+  {(mood === 'sasirmis' || pose === 'tasarruf') && (
+    <path d="M62 108 C46 96 42 78 50 64" stroke={T} stroke-width="12" />
+  )}
+  {(pose === 'sasirmis' || pose === 'tasarruf') && (
+    <path d="M178 108 C194 96 198 78 190 64" stroke={T} stroke-width="12" />
+  )}
+  {pose === 'selam' && (
+    <path class="arm-wave" d="M178 104 C192 96 200 82 196 68" stroke={T} stroke-width="12" />
+  )}
+  {pose === 'hatirlat' && <path d="M178 104 C194 98 204 86 206 72" stroke={T} stroke-width="12" />}
+  {pose === 'sec' && <path d="M178 114 C192 118 202 116 212 108" stroke={T} stroke-width="12" />}
+  {pose === 'zam' && <path d="M180 116 C192 118 200 112 206 104" stroke={T} stroke-width="12" />}
+
+  {/* ---------- Tepedeki kıvrım ve gövde ---------- */}
+  <path d="M120 54 C110 36 126 20 140 28 C152 35 145 51 133 47" stroke={T} stroke-width="11" />
+  <ellipse cx="120" cy="104" rx="64" ry="56" fill={T} />
+  <path d="M74 86 C84 79 94 92 104 85" stroke="#E9A321" stroke-width="5" />
+  <path d="M136 76 C146 69 156 82 166 75" stroke="#E9A321" stroke-width="5" />
+
+  {/* Gözler */}
+  {
+    mood === 'selam' && (
+      <g class="eyes">
+        <circle cx="100" cy="106" r="9.5" fill={INK} />
+        <circle cx="103.5" cy="102.5" r="3.2" fill="#FFFFFF" />
+        <circle cx="140" cy="106" r="9.5" fill={INK} />
+        <circle cx="143.5" cy="102.5" r="3.2" fill="#FFFFFF" />
+      </g>
+    )
+  }
+  {
+    mood === 'mutlu' && (
+      <g>
+        <path d="M90 108 Q100 96 110 108" stroke={INK} stroke-width="5.5" />
+        <path d="M130 108 Q140 96 150 108" stroke={INK} stroke-width="5.5" />
+      </g>
+    )
+  }
+  {
+    mood === 'sasirmis' && (
+      <g>
+        <circle cx="100" cy="104" r="12" fill="#FFFFFF" />
+        <circle cx="100" cy="105" r="6.5" fill={INK} />
+        <circle cx="140" cy="104" r="12" fill="#FFFFFF" />
+        <circle cx="140" cy="105" r="6.5" fill={INK} />
+      </g>
+    )
+  }
+
+  {/* Yanaklar */}
+  <ellipse cx="85" cy="124" rx="9" ry="5.5" fill="#FF8A3D" opacity="0.6" />
+  <ellipse cx="155" cy="124" rx="9" ry="5.5" fill="#FF8A3D" opacity="0.6" />
+
+  {/* Ağız */}
+  {
+    mood === 'sasirmis' ? (
+      <ellipse cx="120" cy="128" rx="7" ry="9" fill={INK} />
+    ) : (
+      <path d="M108 122 Q120 135 132 122" stroke={INK} stroke-width="5" />
+    )
+  }
+
+  {/* ---------- Kâse ---------- */}
+  <path d="M26 144 H214 C214 194 172 222 120 222 C68 222 26 194 26 144 Z" style="fill:var(--kase-govde)" />
+  <ellipse cx="120" cy="144" rx="94" ry="11" style="fill:var(--kase-agiz)" />
+  <path d="M62 146 C66 158 56 164 61 176" stroke={T} stroke-width="9" />
+  <path d="M176 146 C172 156 182 162 178 172" stroke={T} stroke-width="9" />
+  <path
+    d="M74 186 C88 176 102 196 116 186 C130 176 144 196 158 186 C162 183 166 183 168 185"
+    style="stroke:var(--kase-serit)"
+    stroke-width="6"
+  />
+
+  {/* ---------- Önde kalan aksesuarlar ---------- */}
+
+  {
+    pose === 'sec' && (
+      <g class="prop">
+        {/* Açık katalog: iki sayfalı kart, satırlarda servis karoları ve onay işaretleri */}
+        <g transform="rotate(-6 238 96)">
+          <rect x="196" y="40" width="84" height="108" rx="14" fill="#FFFFFF" stroke={INK} stroke-width="4" />
+          <path d="M210 58 H244" stroke={INK} stroke-width="5" />
+          <rect x="208" y="72" width="16" height="16" rx="5" style="fill:var(--karo-lila)" />
+          <path d="M230 80 H252" stroke="#C9C5D0" stroke-width="5" />
+          <circle cx="266" cy="80" r="7" fill={T} />
+          <path d="M262.5 80 l2.5 2.5 l4.5 -5" stroke={INK} stroke-width="2.4" />
+          <rect x="208" y="96" width="16" height="16" rx="5" style="fill:var(--karo-pembe)" />
+          <path d="M230 104 H252" stroke="#C9C5D0" stroke-width="5" />
+          <circle cx="266" cy="104" r="7" fill={T} />
+          <path d="M262.5 104 l2.5 2.5 l4.5 -5" stroke={INK} stroke-width="2.4" />
+          <rect x="208" y="120" width="16" height="16" rx="5" style="fill:var(--karo-nane)" />
+          <path d="M230 128 H252" stroke="#C9C5D0" stroke-width="5" />
+          <circle cx="266" cy="128" r="7" stroke="#C9C5D0" stroke-width="3" />
+        </g>
+        {/* Kartı tutan el */}
+        <circle cx="212" cy="108" r="8" fill={T} />
+      </g>
+    )
+  }
+
+  {
+    pose === 'hatirlat' && (
+      <g class="prop">
+        <g class="bell">
+          {/* Zil: tutamak, gövde, ağız, tokmak */}
+          <path d="M214 30 v-6" stroke={INK} stroke-width="5" />
+          <path d="M194 66 C194 46 200 32 214 32 C228 32 234 46 234 66 L240 74 H188 Z" fill="#C8312A" />
+          <path d="M200 46 C202 40 206 37 210 36" stroke="#FFE08A" stroke-width="3.5" opacity="0.8" />
+          <rect x="186" y="72" width="56" height="7" rx="3.5" fill="#B4271F" />
+          <circle cx="214" cy="84" r="5.5" fill={INK} />
+        </g>
+        {/* Çalma çizgileri */}
+        <g class="ring" stroke="currentColor" stroke-width="4">
+          <path d="M248 40 C254 46 256 54 254 62" />
+          <path d="M258 32 C268 42 270 56 266 68" />
+          <path d="M180 40 C174 46 172 54 174 62" />
+        </g>
+        <circle cx="206" cy="72" r="8" fill={T} />
+      </g>
+    )
+  }
+
+  {
+    pose === 'zam' && (
+      <g class="prop">
+        {/* Büyüteç: sap, çerçeve, mercekte yukarı ok (zam) */}
+        <path d="M206 104 L222 88" stroke={INK} stroke-width="9" />
+        <circle cx="240" cy="70" r="27" fill="#FFFFFF" fill-opacity="0.85" stroke={INK} stroke-width="7" />
+        <path d="M240 84 V58 M229 68 L240 57 L251 68" stroke="#C8312A" stroke-width="6" />
+        <path d="M222 58 C224 52 229 48 234 47" stroke="#C9C5D0" stroke-width="3.5" />
+        <circle cx="206" cy="104" r="8" fill={T} />
+      </g>
+    )
+  }
+
+  {
+    pose === 'tasarruf' && (
+      <g class="prop coins">
+        {/* Kâsenin yanında bozuk para yığını */}
+        <g>
+          <ellipse cx="248" cy="216" rx="22" ry="7" fill="#E9A321" />
+          <rect x="226" y="206" width="44" height="10" fill="#E9A321" />
+          <ellipse cx="248" cy="206" rx="22" ry="7" fill="#FFD873" />
+          <ellipse cx="250" cy="200" rx="22" ry="7" fill="#E9A321" />
+          <rect x="228" y="190" width="44" height="10" fill="#E9A321" />
+          <ellipse cx="250" cy="190" rx="22" ry="7" fill="#FFD873" />
+          <ellipse cx="246" cy="184" rx="22" ry="7" fill="#E9A321" />
+          <rect x="224" y="174" width="44" height="10" fill="#E9A321" />
+          <ellipse cx="246" cy="174" rx="22" ry="7" fill="#FFD873" />
+        </g>
+        {/* Dik duran tek para, ₺ işaretli */}
+        <g class="coin-up">
+          <circle cx="-8" cy="196" r="22" fill="#E9A321" />
+          <circle cx="-10" cy="194" r="20" fill="#FFD873" />
+          <path d="M-14 182 V206 M-14 206 C-4 206 2 200 2 192 M-20 192 L-6 186 M-20 199 L-6 193" stroke="#B5770B" stroke-width="3.5" />
+        </g>
+        <circle class="sparkle" cx="280" cy="160" r="3.5" fill="currentColor" />
+        <path class="sparkle" d="M224 150 v10 M219 155 h10" stroke="currentColor" stroke-width="3" />
+      </g>
+    )
+  }
+</svg>
+
+<style>
+  .kivirik {
+    width: 100%;
+    height: auto;
+    color: var(--text-2);
+    overflow: visible;
+  }
+
+  .arm-wave,
+  .bell {
+    transform-box: view-box;
+  }
+  .arm-wave {
+    transform-origin: 178px 104px;
+  }
+  .bell {
+    transform-origin: 214px 26px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .animate .arm-wave {
+      animation: wave 2.6s var(--ease) infinite;
+    }
+    .animate .bell {
+      animation: ring 2.4s ease-in-out infinite;
+    }
+    .animate .ring {
+      animation: blink 2.4s ease-in-out infinite;
+    }
+    .animate .coin-up {
+      animation: bob 3s ease-in-out infinite;
+    }
+  }
+
+  @keyframes wave {
+    0%, 60%, 100% { transform: rotate(0deg); }
+    10% { transform: rotate(-16deg); }
+    20% { transform: rotate(8deg); }
+    30% { transform: rotate(-14deg); }
+    40% { transform: rotate(6deg); }
+  }
+  @keyframes ring {
+    0%, 50%, 100% { transform: rotate(0deg); }
+    8% { transform: rotate(14deg); }
+    16% { transform: rotate(-12deg); }
+    24% { transform: rotate(9deg); }
+    32% { transform: rotate(-6deg); }
+    40% { transform: rotate(3deg); }
+  }
+  @keyframes blink {
+    0%, 45%, 100% { opacity: 1; }
+    55%, 90% { opacity: 0.25; }
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+</style>

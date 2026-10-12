@@ -1,0 +1,43 @@
+---
+// Yatay "erişte" işareti (yazı path'e çevrilmiş, font beklemez).
+// Renkler bulunduğu zemine göre CSS değişkenlerinden gelir.
+import { WORDMARK, CHOPSTICKS, MARK_VIEWBOX } from '../brand/paths';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<svg class:list={['logo', className]} viewBox={MARK_VIEWBOX} fill="none" stroke-linecap="round" role="img" aria-label="erişte">
+  <path class="logo-text" d={WORDMARK} stroke-width="30" stroke-linejoin="round" paint-order="stroke"></path>
+  {CHOPSTICKS.map((d) => <path class="logo-edge" d={d} stroke-width="30"></path>)}
+  {CHOPSTICKS.map((d) => <path class="logo-stick" d={d} stroke-width="14"></path>)}
+</svg>
+
+<style>
+  .logo {
+    --logo-bg: var(--bg);
+    height: auto;
+  }
+  .logo-text {
+    fill: var(--logo-text, var(--biber));
+    stroke: var(--logo-bg);
+  }
+  .logo-edge {
+    stroke: var(--logo-bg);
+  }
+  .logo-stick {
+    stroke: var(--logo-stick, var(--ink));
+  }
+  :global(.on-dark) .logo {
+    --logo-text: #f5f3f7;
+    --logo-stick: var(--odun);
+  }
+  @media (prefers-color-scheme: dark) {
+    .logo {
+      --logo-text: #f5f3f7;
+      --logo-stick: var(--odun);
+    }
+  }
+</style>

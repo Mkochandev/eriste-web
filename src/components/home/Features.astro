@@ -1,0 +1,409 @@
+---
+import Kivirik from '../Kivirik.astro';
+import ServiceTile from '../ServiceTile.astro';
+import { FREE_LIMIT } from '../../config';
+---
+
+<section class="section" aria-labelledby="features-title">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="pill">Özellikler</span>
+      <h2 id="features-title">Kâsede ne var, ne yok, hep bil.</h2>
+      <p>Aboneliklerin tek listede; fiyatlar, toplamlar ve yaklaşan ödemeler kendiliğinden güncel.</p>
+    </div>
+
+    <div class="bento">
+      {/* 1. Otomatik fiyat takibi */}
+      <article class="card f f-wide f-zam">
+        <div class="f-copy">
+          <h3>Otomatik fiyat takibi</h3>
+          <p class="tagline">Zamları sen takip etme. Kıvırık etsin.</p>
+          <p>Fiyatlar düzenli olarak resmi sayfalardan taranır; zam olunca listen kendiliğinden güncellenir.</p>
+        </div>
+        <div class="f-art zam-art" aria-hidden="true">
+          {/* Örnek görünüm: servis adı ve tutarlar temsilîdir */}
+          <div class="mock zam-card">
+            <div class="mock-top">
+              <span class="pill">Zam</span>
+              <span class="muted">Bu sabah</span>
+            </div>
+            <span class="sample">Örnek</span>
+            <div class="mock-row">
+              <ServiceTile letter="M" tone="pembe" class="mini" />
+              <div class="grow">
+                <strong>Müzik servisi</strong>
+                <span class="muted">Bireysel</span>
+              </div>
+              <div class="price">
+                <s>59,99 ₺</s>
+                <strong>79,99 ₺</strong>
+              </div>
+            </div>
+          </div>
+          <div class="zam-kivirik"><Kivirik pose="zam" /></div>
+        </div>
+      </article>
+
+      {/* 2. Toplam gider ve kategoriler */}
+      <article class="card f">
+        <div class="f-art" aria-hidden="true">
+          <div class="mock">
+            <span class="muted">Bu ay toplam</span>
+            <span class="big">1.248 ₺</span>
+            <div class="bars">
+              <span style="--w: 38%; --c: var(--biber)"></span>
+              <span style="--w: 24%; --c: var(--safran)"></span>
+              <span style="--w: 22%; --c: #7c6cf0"></span>
+              <span style="--w: 16%; --c: #2fb487"></span>
+            </div>
+            <div class="legend">
+              <span style="--c: var(--biber)">Dizi & film</span>
+              <span style="--c: var(--safran)">Müzik</span>
+              <span style="--c: #7c6cf0">Yapay zekâ</span>
+              <span style="--c: #2fb487">Bulut</span>
+            </div>
+          </div>
+        </div>
+        <h3>Toplam gider ve kategoriler</h3>
+        <p>Aylık ve yıllık toplamını, paranın hangi kategoriye gittiğini tek bakışta gör.</p>
+      </article>
+
+      {/* 3. Yaklaşan ödemeler */}
+      <article class="card f">
+        <div class="f-art" aria-hidden="true">
+          <div class="mock list">
+            <div class="mock-row">
+              <span class="day"><b>3</b>gün</span>
+              <div class="grow"><strong>Video servisi</strong><span class="muted">Aylık</span></div>
+            </div>
+            <div class="mock-row">
+              <span class="day"><b>8</b>gün</span>
+              <div class="grow"><strong>Bulut depolama</strong><span class="muted">Aylık</span></div>
+            </div>
+            <div class="mock-row">
+              <span class="day"><b>21</b>gün</span>
+              <div class="grow"><strong>Yapay zekâ</strong><span class="muted">Yıllık</span></div>
+            </div>
+          </div>
+        </div>
+        <h3>Yaklaşan ödemeler</h3>
+        <p>Hangi abonelik ne zaman yenileniyor, sırayla listende. İzin verirsen ödemeden önce cihazında hatırlatma alırsın.</p>
+      </article>
+
+      {/* 4. Dolar → TL */}
+      <article class="card f">
+        <div class="f-art" aria-hidden="true">
+          <div class="fx">
+            <span class="cur usd">$</span>
+            <svg viewBox="0 0 60 24" width="60" height="24" fill="none"><path d="M4 12 C14 4 22 20 32 12 C40 6 46 12 54 12 M46 5 L55 12 L46 19" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            <span class="cur try">₺</span>
+          </div>
+        </div>
+        <h3>Dolar fiyatlar TL’ye çevrilir</h3>
+        <p>Dolar fiyatlı aboneliklerin de toplama Türk lirası olarak girer.</p>
+      </article>
+
+      {/* 5. Misafir modu */}
+      <article class="card f">
+        <div class="f-art" aria-hidden="true">
+          <div class="guest">
+            {Array.from({ length: FREE_LIMIT }, (_, i) => <span class:list={['slot', { on: i < 3 }]} />)}
+          </div>
+          <span class="muted center">3 / {FREE_LIMIT} · hesapsız</span>
+        </div>
+        <h3>Misafir modu</h3>
+        <p>Hesap açmadan, {FREE_LIMIT} aboneliğe kadar cihazında dene.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento {
+    display: grid;
+    gap: 14px;
+  }
+  @media (min-width: 700px) {
+    .bento {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .f-wide {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 1000px) {
+    .bento {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .f-wide {
+      grid-column: span 4;
+    }
+  }
+
+  .f {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 14px 14px 24px;
+  }
+  .f > h3,
+  .f > p {
+    padding-inline: 8px;
+  }
+  .f h3 {
+    font-size: 1.3125rem;
+    margin-top: 8px;
+  }
+  .f p {
+    color: var(--text-2);
+    font-size: 0.9688rem;
+    line-height: 1.5;
+  }
+  .f-art {
+    display: grid;
+    place-items: center;
+    gap: 8px;
+    min-height: 168px;
+    padding: 18px;
+    border-radius: calc(var(--r-card) - 10px);
+    background: var(--bg);
+  }
+
+  /* Geniş zam kartı */
+  .f-zam {
+    padding: 14px;
+    background: var(--ink);
+    color: #f5f3f7;
+    --text-2: #a9a5b0;
+  }
+  .f-zam .f-copy {
+    display: grid;
+    gap: 10px;
+    padding: 18px 10px 8px;
+  }
+  .f-zam h3 {
+    margin: 0;
+    color: var(--safran);
+    font-size: 1rem;
+    letter-spacing: 0;
+  }
+  .f-zam .tagline {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    color: #f5f3f7;
+  }
+  .zam-art {
+    position: relative;
+    background: #1f1c26;
+    padding: 28px 18px 18px;
+    min-height: 220px;
+  }
+  .zam-kivirik {
+    position: absolute;
+    right: -6px;
+    bottom: -4px;
+    width: 120px;
+    --kase-govde: #f5f3f7;
+    --kase-agiz: #dcd9e0;
+    --kase-serit: #c8312a;
+  }
+  .zam-card {
+    align-self: start;
+    justify-self: start;
+    width: min(100%, 300px);
+  }
+  @media (min-width: 700px) {
+    .f-zam {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+    .f-zam .f-copy {
+      padding: 24px;
+    }
+    .zam-kivirik {
+      width: 150px;
+    }
+  }
+
+  /* Ortak mini arayüz parçaları */
+  .mock {
+    display: grid;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+    padding: 14px;
+    border-radius: 18px;
+    background: var(--card);
+    color: var(--text);
+    box-shadow: var(--shadow);
+    font-size: 0.875rem;
+    line-height: 1.25;
+  }
+  .f-zam .mock {
+    background: #ffffff;
+    color: var(--ink);
+    --text-2: #5f5b66;
+    --pill-bg: rgba(200, 49, 42, 0.1);
+    --pill-text: #b4271f;
+  }
+  .zam-card {
+    position: relative;
+  }
+  .sample {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 10px;
+    border-radius: var(--r-pill);
+    background: var(--ink);
+    color: #f5f3f7;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .mock-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mock-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .mock :global(.mini) {
+    width: 40px;
+    padding: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .mock :global(.mini span) {
+    font-size: 1rem;
+  }
+  .grow {
+    flex: 1;
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .muted {
+    color: var(--text-2);
+    font-size: 0.8125rem;
+  }
+  .center {
+    text-align: center;
+  }
+  .price {
+    display: grid;
+    justify-items: end;
+    font-family: var(--font-display);
+  }
+  .price s {
+    color: var(--text-2);
+    font-size: 0.8125rem;
+  }
+  .price strong {
+    color: var(--biber-yazi);
+    font-size: 1.125rem;
+    font-weight: 800;
+  }
+  .big {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.75rem;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .bars {
+    display: flex;
+    gap: 3px;
+    height: 12px;
+  }
+  .bars span {
+    width: var(--w);
+    border-radius: 99px;
+    background: var(--c);
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    color: var(--text-2);
+    font-size: 0.75rem;
+  }
+  .legend span::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: var(--c);
+  }
+  .list {
+    gap: 12px;
+  }
+  .day {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--pill-bg);
+    color: var(--pill-text);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .day b {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 800;
+  }
+  .fx {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-2);
+  }
+  .cur {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 24px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 2.25rem;
+    box-shadow: var(--shadow);
+  }
+  .usd {
+    background: var(--card);
+    color: var(--text);
+  }
+  .try {
+    background: var(--safran);
+    color: var(--ink);
+  }
+  .guest {
+    display: flex;
+    gap: 8px;
+  }
+  .slot {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    border: 2px dashed var(--placeholder-text);
+    opacity: 0.6;
+  }
+  .slot.on {
+    border: 0;
+    opacity: 1;
+    background: var(--safran);
+  }
+</style>

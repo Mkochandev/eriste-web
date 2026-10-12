@@ -1,0 +1,47 @@
+---
+// Kıvırık'ın konuşma balonu. Kuyruk tarafındaki köşe 6px.
+interface Props {
+  tail?: 'left' | 'right' | 'bottom-left';
+  label?: string;
+  class?: string;
+}
+const { tail = 'left', label = 'Kıvırık', class: className } = Astro.props;
+---
+
+<div class:list={['bubble', `tail-${tail}`, className]}>
+  <span class="who">{label}</span>
+  <slot />
+</div>
+
+<style>
+  .bubble {
+    position: relative;
+    display: grid;
+    gap: 4px;
+    padding: 14px 18px 16px;
+    border-radius: 20px;
+    background: var(--bubble-bg);
+    color: var(--bubble-text);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-align: left;
+  }
+  .tail-left {
+    border-top-left-radius: 6px;
+  }
+  .tail-right {
+    border-top-right-radius: 6px;
+  }
+  .tail-bottom-left {
+    border-bottom-left-radius: 6px;
+  }
+  .who {
+    color: var(--safran);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+</style>

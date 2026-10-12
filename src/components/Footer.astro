@@ -1,0 +1,106 @@
+---
+import Logo from './Logo.astro';
+import { LEGAL_PAGES, SLOGAN, SUPPORT_EMAIL } from '../config';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer on-dark">
+  <div class="wrap grid">
+    <div class="brand">
+      <Logo class="footer-logo" />
+      <p>{SLOGAN}</p>
+    </div>
+    <nav aria-label="Yasal ve destek">
+      <ul>
+        {LEGAL_PAGES.map((p) => (
+          <li>
+            <a href={p.href}>{p.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="contact">
+      <span class="label">İletişim</span>
+      <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+      <p class="promise">Reklam yok. İzleme yok. Bu sitede çerez de yok.</p>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <small>© {year} erişte</small>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: 56px 32px;
+    background-color: var(--ink);
+    background-image: var(--noodle-tile);
+    background-size: 380px;
+  }
+  .grid {
+    display: grid;
+    gap: 36px;
+  }
+  @media (min-width: 760px) {
+    .grid {
+      grid-template-columns: 1.2fr 1fr 1fr;
+    }
+  }
+  .brand :global(.footer-logo) {
+    width: 120px;
+    margin-bottom: 14px;
+  }
+  .brand p {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.375rem;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    max-width: 16ch;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+  }
+  ul a,
+  .contact a {
+    display: inline-block;
+    padding: 6px 0;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  ul a:hover,
+  .contact a:hover {
+    color: var(--safran);
+  }
+  .contact {
+    display: grid;
+    align-content: start;
+  }
+  .contact a {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .label {
+    color: var(--safran);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+  .promise {
+    margin-top: 10px;
+    color: var(--text-2);
+    font-size: 0.9375rem;
+  }
+  .legal {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--text-2);
+  }
+</style>

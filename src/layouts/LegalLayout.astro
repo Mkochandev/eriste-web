@@ -1,0 +1,175 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { LEGAL_UPDATED, SUPPORT_EMAIL } from '../config';
+import { addTableLabels } from '../lib/table-labels';
+
+interface Props {
+  title: string;
+  description: string;
+  kicker?: string;
+}
+
+const { title, description, kicker = 'Yasal' } = Astro.props;
+const body = addTableLabels(await Astro.slots.render('default'));
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="legal-hero">
+    <div class="wrap narrow">
+      <span class="pill">{kicker}</span>
+      <h1>{title}</h1>
+      <p class="updated">Son güncelleme: {LEGAL_UPDATED}</p>
+    </div>
+  </section>
+  <article class="wrap narrow prose">
+    <Fragment set:html={body} />
+    <aside class="ask">
+      Sorun mu var? <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> adresine yaz.
+    </aside>
+  </article>
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 760px;
+  }
+  .legal-hero {
+    padding-block: 40px 36px;
+    background-color: var(--bg-warm);
+    background-image: var(--noodle-tile);
+    background-size: 380px;
+    margin-bottom: 40px;
+  }
+  .legal-hero .wrap {
+    display: grid;
+    gap: 14px;
+    justify-items: start;
+  }
+  .legal-hero h1 {
+    font-size: clamp(2.25rem, 9vw, 3.5rem);
+  }
+  .updated {
+    color: var(--text-2);
+    font-size: 0.9375rem;
+  }
+
+  .prose {
+    padding-bottom: 72px;
+    font-size: 1.0625rem;
+  }
+  .prose :global(h2) {
+    font-size: clamp(1.5rem, 5.5vw, 1.875rem);
+    margin: 48px 0 14px;
+    scroll-margin-top: 24px;
+  }
+  .prose :global(h3) {
+    font-size: 1.1875rem;
+    margin: 28px 0 10px;
+  }
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 14px;
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.25em;
+  }
+  .prose :global(li) {
+    margin-bottom: 6px;
+  }
+  .prose :global(li::marker) {
+    color: var(--accent-text);
+  }
+  .prose :global(a) {
+    color: var(--accent-text);
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+  .prose :global(strong) {
+    font-weight: 700;
+  }
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    margin: 0 0 20px;
+    font-size: 0.9375rem;
+    background: var(--card);
+    border-radius: var(--r-card-sm);
+    box-shadow: var(--shadow);
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+  .prose :global(tr:last-child td) {
+    border-bottom: 0;
+  }
+  .prose :global(th) {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+  /* Dar ekranda her satır, sütun başlıkları etiket olarak yazılmış bir karta dönüşür */
+  @media (max-width: 599px) {
+    .prose :global(table),
+    .prose :global(tbody),
+    .prose :global(tr),
+    .prose :global(td) {
+      display: block;
+    }
+    .prose :global(thead) {
+      display: none;
+    }
+    .prose :global(tr) {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .prose :global(tr:last-child) {
+      border-bottom: 0;
+    }
+    .prose :global(td) {
+      padding: 0;
+      border: 0;
+    }
+    .prose :global(td + td) {
+      margin-top: 8px;
+    }
+    .prose :global(td:first-child) {
+      font-weight: 700;
+    }
+    .prose :global(td[data-label]:not(:first-child)::before) {
+      content: attr(data-label);
+      display: block;
+      color: var(--text-2);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+  }
+  .prose :global(blockquote) {
+    margin: 0 0 16px;
+    padding: 14px 18px;
+    border-radius: var(--r-card-sm);
+    background: var(--pill-bg);
+  }
+  .prose :global(blockquote p:last-child) {
+    margin: 0;
+  }
+  .ask {
+    margin-top: 48px;
+    padding: 18px 20px;
+    border-radius: var(--r-card-sm);
+    background: var(--card);
+    box-shadow: var(--shadow);
+  }
+  .ask a {
+    font-weight: 700;
+  }
+</style>

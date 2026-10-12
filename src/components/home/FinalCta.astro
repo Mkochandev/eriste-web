@@ -1,0 +1,74 @@
+---
+import AppStoreBadge from '../AppStoreBadge.astro';
+import Kivirik from '../Kivirik.astro';
+---
+
+<section id="indir" class="section cta-sec" aria-labelledby="cta-title">
+  <div class="wrap">
+    <div class="cta">
+      <div class="kv">
+        <Kivirik pose="mutlu" label="Kıvırık mutlu" />
+      </div>
+      <div class="copy">
+        <h2 id="cta-title">Aboneliklerini kâseye koy.</h2>
+        <p>Gerisini Kıvırık takip etsin.</p>
+        <AppStoreBadge size="lg" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+    text-align: center;
+    padding: 40px 22px 44px;
+    border-radius: 36px;
+    background-color: var(--biber);
+    background-image: url('/brand/noodles-tile-koyu.svg');
+    background-size: 340px;
+    color: #fff6dc;
+    overflow: hidden;
+    /* Biber zeminde krem kâse ve koyu buton (logo "biber" varyantı gibi) */
+    --kase-govde: #f5f3f7;
+    --kase-agiz: #dcd9e0;
+    --kase-serit: #c8312a;
+    --btn-bg: #15131a;
+    --btn-text: #f5f3f7;
+  }
+  .kv {
+    width: min(200px, 56vw);
+  }
+  .copy {
+    display: grid;
+    gap: 12px;
+    justify-items: center;
+  }
+  h2 {
+    font-size: clamp(2.25rem, 9vw, 4rem);
+    max-width: 14ch;
+  }
+  p {
+    font-size: 1.1875rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  @media (min-width: 800px) {
+    .cta {
+      grid-template-columns: auto 1fr;
+      justify-items: start;
+      text-align: left;
+      gap: 48px;
+      padding: 56px 64px;
+    }
+    .copy {
+      justify-items: start;
+    }
+    .kv {
+      width: 240px;
+    }
+  }
+</style>

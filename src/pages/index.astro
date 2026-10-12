@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import Steps from '../components/home/Steps.astro';
+import Features from '../components/home/Features.astro';
+import Screens from '../components/home/Screens.astro';
+import Privacy from '../components/home/Privacy.astro';
+import Pricing from '../components/home/Pricing.astro';
+import FaqSection from '../components/home/FaqSection.astro';
+import FinalCta from '../components/home/FinalCta.astro';
+import { SLOGAN } from '../config';
+---
+
+<BaseLayout
+  title={`erişte: ${SLOGAN}`}
+  description="Netflix’ten ChatGPT’ye bütün aboneliklerin tek listede. Fiyatlar kendiliğinden güncellenir, zamları sen kovalamazsın. Banka bağlamak yok, reklam yok, izleme yok."
+  bareTitle
+>
+  <Hero />
+  <Steps />
+  <Features />
+  <Screens />
+  <Privacy />
+  <Pricing />
+  <FaqSection />
+  <FinalCta />
+</BaseLayout>

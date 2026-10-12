@@ -1,0 +1,66 @@
+---
+import Bubble from '../Bubble.astro';
+import Faq from '../Faq.astro';
+import Kivirik from '../Kivirik.astro';
+import { SSS } from '../../data/sss';
+---
+
+<section class="section faq-sec" aria-labelledby="faq-title">
+  <div class="wrap grid">
+    <div class="side">
+      <span class="pill">SSS</span>
+      <h2 id="faq-title">Aklına takılanlar</h2>
+      <div class="kv">
+        <Bubble tail="bottom-left" class="faq-bubble">Başka sorun varsa yaz bana!</Bubble>
+        <Kivirik pose="selam" />
+      </div>
+      <a href="/destek" class="link">Bütün sorular ve destek →</a>
+    </div>
+    <Faq items={SSS.filter((s) => s.home)} />
+  </div>
+</section>
+
+<style>
+  .faq-sec {
+    background-color: var(--bg-warm);
+  }
+  .grid {
+    display: grid;
+    gap: 28px;
+  }
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 56px;
+      align-items: start;
+    }
+  }
+  .side {
+    display: grid;
+    gap: 16px;
+    justify-items: start;
+  }
+  h2 {
+    font-size: clamp(2rem, 7vw, 3.25rem);
+  }
+  .kv {
+    position: relative;
+    width: min(180px, 48vw);
+    padding-top: 70px;
+    margin-left: 4px;
+  }
+  .kv :global(.faq-bubble) {
+    position: absolute;
+    top: 0;
+    left: 55%;
+    width: max-content;
+    max-width: 170px;
+    font-size: 0.9375rem;
+  }
+  .link {
+    color: var(--accent-text);
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-underline-offset: 4px;
+  }
+</style>

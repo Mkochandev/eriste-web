@@ -1,0 +1,72 @@
+---
+import '@fontsource/bricolage-grotesque/latin-700.css';
+import '@fontsource/bricolage-grotesque/latin-800.css';
+import '@fontsource/bricolage-grotesque/latin-ext-700.css';
+import '@fontsource/bricolage-grotesque/latin-ext-800.css';
+import '../styles/global.css';
+import font800 from '@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-800-normal.woff2?url';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { APP_STORE_ID, SITE_NAME, SITE_URL } from '../config';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Sayfa başlığına " · erişte" eklenmesin (ana sayfa) */
+  bareTitle?: boolean;
+  ogImage?: string;
+  /** Arama motorlarına kapalı (404) */
+  noindex?: boolean;
+}
+
+const { title, description, bareTitle = false, ogImage = '/images/og.png', noindex = false } = Astro.props;
+const fullTitle = bareTitle ? title : `${title} · ${SITE_NAME}`;
+// build.format 'file' yolları /gizlilik.html olarak verir; yayındaki adres uzantısız
+const cleanPath = Astro.url.pathname.replace(/(index)?\.html$/, '');
+const canonical = new URL(cleanPath, SITE_URL).href;
+const ogUrl = new URL(ogImage, SITE_URL).href;
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+
+    <link rel="preload" href={font800} as="font" type="font/woff2" crossorigin />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#15131A" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    {APP_STORE_ID && <meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />}
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#icerik" class="skip-link">İçeriğe geç</a>
+    <Header />
+    <main id="icerik">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

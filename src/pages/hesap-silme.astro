@@ -1,0 +1,8 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { Content, frontmatter } from '../content/yasal/hesap-silme.md';
+---
+
+<LegalLayout title={frontmatter.title} description={frontmatter.description} kicker="Hesap">
+  <Content />
+</LegalLayout>

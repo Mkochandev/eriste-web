@@ -1,0 +1,40 @@
+---
+// Servis karosu: gerçek logo yerine harf monogramı (marka logoları kullanılmıyor).
+interface Props {
+  letter: string;
+  tone: 'lila' | 'pembe' | 'nane' | 'gok' | 'seftali';
+  class?: string;
+  style?: string;
+}
+const { letter, tone, class: className, style } = Astro.props;
+---
+
+<span class:list={['tile', className]} style={`--tone: var(--karo-${tone});${style ?? ''}`} aria-hidden="true">
+  <span>{letter}</span>
+</span>
+
+<style>
+  .tile {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    aspect-ratio: 1;
+    padding: 7px;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.5);
+  }
+  .tile span {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: var(--tone);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+</style>
