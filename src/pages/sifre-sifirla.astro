@@ -1,0 +1,177 @@
+---
+// Uygulamadaki "Şifremi unuttum" e-postasındaki bağlantı buraya gelir: /sifre-sifirla?token=...
+// Sitedeki tek script ve tek harici istek bu sayfada. CSP istisnası public/_headers'ta;
+// script'in sha256 özeti build sonunda astro.config.mjs'teki entegrasyonla _headers'a yazılır.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Kivirik from '../components/Kivirik.astro';
+---
+
+<BaseLayout title="Şifreni sıfırla" description="erişte hesabın için yeni bir şifre belirle." noindex>
+  <section class="reset wrap">
+    <div id="form-state" class="state">
+      <span class="pill">Hesap</span>
+      <h1>Yeni şifreni belirle.</h1>
+      <form id="reset-form" class="card" novalidate>
+        <label for="password">Yeni şifre</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required />
+        <label for="password2">Yeni şifre (tekrar)</label>
+        <input id="password2" name="password2" type="password" autocomplete="new-password" minlength="8" required />
+        <p class="hint">En az 8 karakter.</p>
+        <p id="form-error" class="error" role="alert" hidden></p>
+        <button class="btn" type="submit">Şifremi güncelle</button>
+      </form>
+    </div>
+
+    <div id="success-state" class="state" hidden>
+      <div class="art"><Kivirik pose="mutlu" /></div>
+      <h1>Şifren güncellendi.</h1>
+      <p>Uygulamaya dönüp yeni şifrenle giriş yapabilirsin.</p>
+    </div>
+
+    <div id="expired-state" class="state" hidden>
+      <div class="art"><Kivirik pose="sasirmis" /></div>
+      <h1>Bağlantının süresi dolmuş.</h1>
+      <p>Bu bağlantının süresi dolmuş. Uygulamadan tekrar 'Şifremi unuttum' de.</p>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var token = new URLSearchParams(location.search).get('token');
+      // Token adres çubuğunda, geçmişte ve Referer'da kalmasın
+      history.replaceState(null, '', location.pathname);
+
+      var form = document.getElementById('reset-form');
+      var error = document.getElementById('form-error');
+      var button = form.querySelector('button');
+
+      function show(id) {
+        ['form-state', 'success-state', 'expired-state'].forEach(function (s) {
+          document.getElementById(s).hidden = s !== id;
+        });
+        var h = document.querySelector('#' + id + ' h1');
+        h.tabIndex = -1;
+        h.focus();
+      }
+      function fail(msg) {
+        error.textContent = msg;
+        error.hidden = false;
+      }
+
+      if (!token) return show('expired-state');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        error.hidden = true;
+        var p1 = form.password.value;
+        var p2 = form.password2.value;
+        if (p1.length < 8) return fail('Şifre en az 8 karakter olmalı.');
+        if (p1 !== p2) return fail('Şifreler eşleşmiyor.');
+
+        button.disabled = true;
+        fetch('https://api.eriste.app/api/auth/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: token, password: p1 }),
+        })
+          .then(function (res) {
+            if (res.ok) return show('success-state');
+            if ([400, 401, 403, 404, 410].indexOf(res.status) !== -1) return show('expired-state');
+            fail('Bir şeyler ters gitti. Biraz sonra tekrar dene.');
+          })
+          .catch(function () {
+            fail('Sunucuya ulaşılamadı. Bağlantını kontrol edip tekrar dene.');
+          })
+          .then(function () {
+            button.disabled = false;
+          });
+      });
+    })();
+  </script>
+</BaseLayout>
+
+<style>
+  .reset {
+    display: grid;
+    justify-items: center;
+    padding-block: 48px 96px;
+  }
+  .state {
+    display: grid;
+    justify-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+  }
+  .state[hidden] {
+    display: none;
+  }
+  h1 {
+    font-size: clamp(2rem, 8vw, 2.75rem);
+    max-width: 16ch;
+  }
+  h1:focus {
+    outline: none;
+  }
+  .state > p {
+    color: var(--text-2);
+    max-width: 36ch;
+  }
+  .art {
+    width: min(200px, 60vw);
+    margin-bottom: 8px;
+  }
+  .card {
+    display: grid;
+    gap: 8px;
+    width: 100%;
+    margin-top: 8px;
+    padding: 24px;
+    border-radius: var(--r-card-sm);
+    background: var(--card);
+    box-shadow: var(--shadow);
+    text-align: left;
+  }
+  label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9375rem;
+  }
+  label:not(:first-child) {
+    margin-top: 8px;
+  }
+  input {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 14px;
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+  }
+  input:focus-visible {
+    outline: none;
+    border-color: var(--safran);
+  }
+  .hint {
+    color: var(--text-2);
+    font-size: 0.875rem;
+  }
+  .error {
+    color: var(--accent-text);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .btn {
+    margin-top: 8px;
+    border: 0;
+    cursor: pointer;
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: progress;
+    transform: none;
+  }
+</style>
