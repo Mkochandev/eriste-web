@@ -5,6 +5,12 @@ export const SITE_NAME = 'erişte';
 export const SLOGAN = 'Bütün aboneliklerin tek kâsede.';
 export const SUPPORT_EMAIL = 'destek@eriste.app';
 
+/** Sosyal medya hesapları. Footer buradan okur. */
+export const SOCIAL_LINKS = [
+  { label: 'Instagram', handle: '@eriste.app', href: 'https://www.instagram.com/eriste.app/' },
+  { label: 'TikTok', handle: '@eristeapp', href: 'https://www.tiktok.com/@eristeapp' },
+] as const;
+
 /** App Store App ID (yalnızca rakamlar). Safari akıllı uygulama bandı ve JSON-LD buradan okur. */
 export const APP_STORE_ID = '6820681829';
 

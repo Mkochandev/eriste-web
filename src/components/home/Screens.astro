@@ -1,13 +1,37 @@
 ---
 import PhoneFrame from '../PhoneFrame.astro';
 
-// TODO: App Store ekran görüntüleri gelince her öğeye `src` (public/images/...) ekle.
 const screens = [
-  { label: 'Abonelik listesi', caption: 'Bütün abonelikler tek listede' },
-  { label: 'Katalog', caption: 'Servisi ve planı seç' },
-  { label: 'Kıvırık soruyor', caption: 'Birkaç kısa soru' },
-  { label: 'Zam kartı', caption: 'Zam olunca listende' },
-  { label: 'İptal Kartı', caption: 'İptal etmek bu kadar kolay mı!' },
+  {
+    label: 'Abonelik listesi',
+    caption: 'Bütün abonelikler tek listede',
+    src: '/images/ekranlar/01-abonelik-listesi.png',
+    alt: 'Eriste uygulamasında tüm aboneliklerin listelendiği ana ekran',
+  },
+  {
+    label: 'Katalog',
+    caption: 'Servisi ve planı seç',
+    src: '/images/ekranlar/02-katalog.png',
+    alt: 'Servis ve plan seçilen katalog ekranı',
+  },
+  {
+    label: 'Kıvırık soruyor',
+    caption: 'Birkaç kısa soru',
+    src: '/images/ekranlar/03-kivirik-soruyor.png',
+    alt: 'Kıvırık’ın abonelik eklerken kısa sorular sorduğu ekran',
+  },
+  {
+    label: 'Zam kartı',
+    caption: 'Zam olunca listende',
+    src: '/images/ekranlar/04-zam-karti.png',
+    alt: 'Bir aboneliğe gelen zammı gösteren kart',
+  },
+  {
+    label: 'İptal Kartı',
+    caption: 'İptal etmek bu kadar kolay mı!',
+    src: '/images/ekranlar/05-toplam-gider.png',
+    alt: 'Bir aboneliğin nasıl iptal edileceğini gösteren kart',
+  },
 ];
 ---
 
@@ -22,7 +46,7 @@ const screens = [
     {
       screens.map((s, i) => (
         <li style={`--tilt: ${i % 2 ? 2 : -2}deg`}>
-          <PhoneFrame label={s.label} />
+          <PhoneFrame label={s.label} src={s.src} alt={s.alt} />
           <span class="cap">{s.caption}</span>
         </li>
       ))

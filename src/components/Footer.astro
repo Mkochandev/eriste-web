@@ -1,7 +1,7 @@
 ---
 import AppStoreBadge from './AppStoreBadge.astro';
 import Logo from './Logo.astro';
-import { LEGAL_PAGES, SLOGAN, SUPPORT_EMAIL } from '../config';
+import { LEGAL_PAGES, SLOGAN, SOCIAL_LINKS, SUPPORT_EMAIL } from '../config';
 
 const year = new Date().getFullYear();
 ---
@@ -25,6 +25,12 @@ const year = new Date().getFullYear();
     <div class="contact">
       <span class="label">İletişim</span>
       <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+      <span class="label social-label">Bizi takip et</span>
+      {SOCIAL_LINKS.map((s) => (
+        <a href={s.href} target="_blank" rel="noopener me" aria-label={`${s.label}: ${s.handle}`}>
+          <span class="network">{s.label}</span> {s.handle}
+        </a>
+      ))}
       <p class="promise">Reklam yok. İzleme yok. Bu sitede çerez de yok.</p>
     </div>
   </div>
@@ -94,6 +100,13 @@ const year = new Date().getFullYear();
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 0.875rem;
+  }
+  .social-label {
+    margin-top: 14px;
+  }
+  .network {
+    color: var(--text-2);
+    font-weight: 500;
   }
   .promise {
     margin-top: 10px;
