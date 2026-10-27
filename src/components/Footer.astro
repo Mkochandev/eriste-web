@@ -1,4 +1,5 @@
 ---
+import AppStoreBadge from './AppStoreBadge.astro';
 import Logo from './Logo.astro';
 import { LEGAL_PAGES, SLOGAN, SUPPORT_EMAIL } from '../config';
 
@@ -10,6 +11,7 @@ const year = new Date().getFullYear();
     <div class="brand">
       <Logo class="footer-logo" />
       <p>{SLOGAN}</p>
+      <div class="get"><AppStoreBadge /></div>
     </div>
     <nav aria-label="Yasal ve destek">
       <ul>
@@ -56,6 +58,9 @@ const year = new Date().getFullYear();
     letter-spacing: -0.02em;
     line-height: 1.15;
     max-width: 16ch;
+  }
+  .get {
+    margin-top: 20px;
   }
   ul {
     list-style: none;

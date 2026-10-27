@@ -8,14 +8,31 @@ import Privacy from '../components/home/Privacy.astro';
 import Pricing from '../components/home/Pricing.astro';
 import FaqSection from '../components/home/FaqSection.astro';
 import FinalCta from '../components/home/FinalCta.astro';
-import { SLOGAN } from '../config';
+import { APP_STORE_URL, SITE_NAME, SITE_URL, SLOGAN } from '../config';
+
+const description =
+  'Netflix’ten ChatGPT’ye bütün aboneliklerin tek listede. Fiyatlar kendiliğinden güncellenir, zamları sen kovalamazsın. Banka bağlamak yok, reklam yok, izleme yok.';
+
+const appJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: SITE_NAME,
+  description,
+  url: SITE_URL,
+  operatingSystem: 'iOS',
+  applicationCategory: 'FinanceApplication',
+  downloadUrl: APP_STORE_URL,
+  installUrl: APP_STORE_URL,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'TRY' },
+};
 ---
 
 <BaseLayout
   title={`erişte: ${SLOGAN}`}
-  description="Netflix’ten ChatGPT’ye bütün aboneliklerin tek listede. Fiyatlar kendiliğinden güncellenir, zamları sen kovalamazsın. Banka bağlamak yok, reklam yok, izleme yok."
+  description={description}
   bareTitle
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(appJsonLd)} />
   <Hero />
   <Steps />
   <Features />

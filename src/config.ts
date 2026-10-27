@@ -5,11 +5,11 @@ export const SITE_NAME = 'erişte';
 export const SLOGAN = 'Bütün aboneliklerin tek kâsede.';
 export const SUPPORT_EMAIL = 'destek@eriste.app';
 
-/** TODO: Uygulama yayına girince App Store linki. null iken "Yakında App Store'da" görünür. */
-export const APP_STORE_URL: string | null = null;
+/** App Store App ID (yalnızca rakamlar). Safari akıllı uygulama bandı ve JSON-LD buradan okur. */
+export const APP_STORE_ID = '6820681829';
 
-/** TODO: App Store App ID (yalnızca rakamlar). Girilince Safari akıllı uygulama bandı eklenir. */
-export const APP_STORE_ID: string | null = null;
+/** App Store linki. Bütün indirme düğmeleri buradan okur; linki başka yere elle yazma. */
+export const APP_STORE_URL = `https://apps.apple.com/tr/app/id${APP_STORE_ID}`;
 
 /** TODO: Premium fiyatları (ör. '49,99 ₺'). null iken fiyat gösterilmez. */
 export const PREMIUM_PRICES: { monthly: string; yearly: string } | null = null;

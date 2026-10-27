@@ -1,4 +1,5 @@
 ---
+import AppStoreBadge from '../AppStoreBadge.astro';
 import Kivirik from '../Kivirik.astro';
 import ServiceTile from '../ServiceTile.astro';
 import { FREE_LIMIT } from '../../config';
@@ -115,10 +116,19 @@ import { FREE_LIMIT } from '../../config';
         <p>Hesap açmadan, {FREE_LIMIT} aboneliğe kadar cihazında dene.</p>
       </article>
     </div>
+
+    <div class="get">
+      <AppStoreBadge />
+    </div>
   </div>
 </section>
 
 <style>
+  .get {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+  }
   .bento {
     display: grid;
     gap: 14px;

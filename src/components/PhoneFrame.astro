@@ -17,7 +17,7 @@ const { src, alt = '', label = 'Uygulama ekranı', class: className, eager = fal
       src ? (
         <img src={src} alt={alt} width="390" height="844" loading={eager ? 'eager' : 'lazy'} decoding="async" />
       ) : (
-        <div class="ph" role="img" aria-label={`${label} (görsel yakında)`}>
+        <div class="ph" role="img" aria-label={`${label} (örnek görünüm)`}>
           <span class="ph-bar w40" />
           <span class="ph-big" />
           {[0, 1, 2, 3].map(() => (

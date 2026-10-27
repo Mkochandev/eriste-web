@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Kivirik from '../components/Kivirik.astro';
 import Bubble from '../components/Bubble.astro';
 import Faq from '../components/Faq.astro';
+import AppStoreBadge from '../components/AppStoreBadge.astro';
 import { SSS } from '../data/sss';
 import { LEGAL_PAGES, SUPPORT_EMAIL } from '../config';
 ---
@@ -23,6 +24,7 @@ import { LEGAL_PAGES, SUPPORT_EMAIL } from '../config';
             {SUPPORT_EMAIL}
           </span>
         </a>
+        <AppStoreBadge />
       </div>
       <div class="art">
         <Bubble tail="bottom-left" class="art-bubble">Ne soracaktın?</Bubble>

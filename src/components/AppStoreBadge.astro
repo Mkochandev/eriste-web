@@ -7,32 +7,17 @@ interface Props {
 const { size = 'md' } = Astro.props;
 ---
 
-{
-  APP_STORE_URL ? (
-    // TODO: Yayından sonra Apple'ın resmi "Download on the App Store" rozeti (Türkçe) ile değiştir.
-    <a class:list={['badge', size]} href={APP_STORE_URL} rel="noopener">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-        <rect x="6" y="2" width="12" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2" />
-        <path d="M10 18.5h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-      </svg>
-      <span>
-        <small>İndir</small>
-        App Store
-      </span>
-    </a>
-  ) : (
-    <span class:list={['badge', 'soon', size]}>
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-        <rect x="6" y="2" width="12" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2" />
-        <path d="M10 18.5h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-      </svg>
-      <span>
-        <small>Yakında</small>
-        App Store'da
-      </span>
-    </span>
-  )
-}
+{/* TODO: Apple'ın resmi "App Store'dan İndirin" rozeti (açık/koyu) public/ altına gelince onunla değiştir. */}
+<a class:list={['badge', size]} href={APP_STORE_URL} rel="noopener" aria-label="erişte'yi App Store'dan ücretsiz indir">
+  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+    <rect x="6" y="2" width="12" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2" />
+    <path d="M10 18.5h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+  </svg>
+  <span>
+    <small>Ücretsiz indir</small>
+    App Store'dan indir
+  </span>
+</a>
 
 <style>
   .badge {
@@ -64,9 +49,6 @@ const { size = 'md' } = Astro.props;
     min-height: 64px;
     font-size: 1.25rem;
     padding-inline: 20px 26px;
-  }
-  .soon {
-    cursor: default;
   }
   a.badge {
     transition: transform 0.2s var(--ease);
