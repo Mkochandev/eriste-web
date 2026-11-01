@@ -8,6 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check:seo": "node scripts/check-seo.mjs",
+    "check:calculator": "node scripts/check-calculator.mjs",
+    "favicon": "node scripts/build-favicon.mjs",
     "blog:images": "node scripts/build-blog-images.mjs",
     "brand": "node scripts/build-brand.mjs"
   },

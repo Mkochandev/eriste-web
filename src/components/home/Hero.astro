@@ -18,20 +18,20 @@ import ServiceTile from '../ServiceTile.astro';
     <div class="copy">
       <span class="pill">Abonelik takip uygulaması · iPhone</span>
       <h1 id="hero-title">
-        Bütün aboneliklerin tek{' '}
+        Hangi ay ne ödeyeceğini{' '}
         <span class="kase">
-          kâsede.
+          tek ekranda gör.
           <svg viewBox="0 0 200 20" preserveAspectRatio="none" fill="none" aria-hidden="true">
             <path d="M4 12 C30 2 50 20 76 10 C102 0 122 20 148 10 C168 3 184 12 196 8" stroke="#FFC53D" stroke-width="6" stroke-linecap="round" />
           </svg>
         </span>
       </h1>
       <p class="lead">
-        Netflix’ten ChatGPT’ye bütün aboneliklerin tek listede. Fiyatlar kendiliğinden güncellenir, zamları sen kovalamazsın.
+        Aboneliklerini, toplam giderini ve yaklaşan ödemelerini bir arada takip et. Fiyatlar güncellensin, bütçende sürpriz olmasın.
       </p>
       <div class="actions">
         <AppStoreBadge size="lg" />
-        <a class="more" href="#nasil-calisir">Nasıl çalışır?</a>
+        <a class="more" href="#abonelik-hesabi">Önce giderini hesapla</a>
       </div>
       <ul class="promises">
         <li>Banka bağlamak yok</li>
@@ -105,7 +105,7 @@ import ServiceTile from '../ServiceTile.astro';
     position: relative;
     display: inline-block;
     color: var(--safran);
-    white-space: nowrap;
+    max-width: 100%;
   }
   .kase svg {
     position: absolute;

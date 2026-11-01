@@ -1,0 +1,45 @@
+---
+import AppStoreBadge from '../AppStoreBadge.astro';
+const services = ['Netflix', 'Spotify', 'YouTube Premium', 'iCloud+', 'Diğer abonelik'];
+---
+<section id="abonelik-hesabi" class="section" aria-labelledby="calculator-title">
+  <div class="wrap">
+    <div class="section-head"><span class="pill">İndirmeden dene</span><h2 id="calculator-title">Küçük ödemeler toplamda ne ediyor?</h2><p>Kullandığın hizmetleri seç, kendi ödediğin tutarları TL olarak gir. Aylık ortalamanı ve yıllık karşılığını birlikte gör.</p></div>
+    <div class="calculator card">
+      <form id="subscription-calculator">
+        <fieldset><legend>Aboneliklerin</legend>
+          {services.map((service, i)=><div class="service" data-service>
+            <label class="service-name"><input type="checkbox" data-enabled />{service}</label>
+            <label class="field" for={`amount-${i}`}><span>Ödediğin tutar (TL)</span><input id={`amount-${i}`} data-amount data-detail type="number" inputmode="decimal" min="0" max="1000000" step="0.01" required disabled placeholder="0,00" /></label>
+            <label class="field" for={`period-${i}`}><span>Ödeme dönemi</span><select id={`period-${i}`} data-period data-detail disabled><option value="monthly">Aylık</option><option value="yearly">Yıllık</option></select></label>
+            <label class="consider"><input type="checkbox" data-removable data-detail disabled />Bırakmayı düşünüyorum</label>
+          </div>)}
+        </fieldset>
+        <div class="buttons"><button type="submit" class="btn" disabled>Toplamı hesapla</button><button type="reset" class="reset" disabled>Temizle</button></div>
+        <noscript><p>Hesaplayıcı için JavaScript gerekir. <a href="/blog/abonelik-butcesi-hesaplama">Elle hesaplama rehberini</a> kullanabilirsin.</p></noscript>
+      </form>
+      <p id="subscription-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div id="subscription-result" hidden>
+        <dl><div><dt>Aylık ortalama</dt><dd data-monthly></dd></div><div><dt>12 aylık karşılığı</dt><dd data-yearly></dd></div></dl>
+        <p data-saving-line hidden>Bırakmayı düşündüğün hizmetleri yenilemezsen, tam bir yıllık dönemdeki giderin <strong data-saving></strong> daha düşük olabilir.</p>
+        <p class="note">Fiyatların değişmediği ve hizmetlerin 12 ay sürdüğü varsayılır. Yıllık bedel ortalama için 12’ye bölünür; gerçek ödeme takvimin farklıdır. Olası düşüş, mevcut dönem için iade veya garanti tasarruf değildir.</p>
+        <h3>Bu listeyi her ay yeniden kurma.</h3><p>erişte ile aboneliklerini ve yaklaşan ödemelerini bir arada takip et.</p><AppStoreBadge />
+      </div>
+      <p class="note">Bu hesaplama yalnızca tarayıcında yapılır. Girdiğin tutarlar gönderilmez veya kaydedilmez. Bu araç güncel platform fiyatlarını otomatik getirmez.</p>
+      <a class="guide" href="/blog/abonelik-butcesi-hesaplama">Aylık ortalama ile ödeme takvimi arasındaki fark →</a>
+    </div>
+  </div>
+</section>
+<script is:inline type="module" src="/scripts/subscription-calculator.v1.js"></script>
+<style>
+ .calculator { padding:clamp(20px,4vw,40px); } fieldset { border:0; padding:0; margin:0; min-width:0; } legend { font-weight:700; margin-bottom:12px; }
+ .service { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:12px 20px; padding:20px 0; border-bottom:1px solid var(--line); align-items:center; }
+ .service-name,.consider { display:flex; align-items:center; gap:10px; } .service-name { font-weight:700; } .consider { grid-column:2 / -1; font-size:.9rem; }
+ .field { display:grid; gap:6px; font-size:.85rem; } input[type=number],select { min-width:0; width:100%; border:1px solid var(--text-2); border-radius:10px; padding:12px; background:var(--bg); color:var(--text); font:inherit; font-size:1rem; }
+ input[type=checkbox] { width:20px; height:20px; flex:none; accent-color:var(--accent-text); } input:disabled,select:disabled { opacity:.45; }
+ .buttons { display:flex; gap:24px; align-items:center; padding-top:24px; } button { cursor:pointer; border:0; } button:disabled { opacity:.5; cursor:not-allowed; } .reset { background:none; color:var(--text); text-decoration:underline; font:inherit; padding:12px; }
+ #subscription-result:not([hidden]) { display:grid; gap:18px; justify-items:start; background:var(--bg-warm); padding:24px; border-radius:20px; margin-block:24px; }
+ dl { display:flex; flex-wrap:wrap; gap:24px 48px; margin:0; } dt { color:var(--text-2); } dd { font-family:var(--font-display); font-size:clamp(1.6rem,5vw,2.4rem); margin:0; font-weight:800; overflow-wrap:anywhere; }
+ .note { font-size:.9rem; color:var(--text-2); margin-top:16px; } .guide { display:inline-block; margin-top:14px; text-underline-offset:4px; } #subscription-status:not(:empty) { margin-top:20px; }
+ @media(max-width:600px) { .service { grid-template-columns:1fr 1fr; } .service-name,.consider { grid-column:1 / -1; } }
+</style>

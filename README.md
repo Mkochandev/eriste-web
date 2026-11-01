@@ -1,6 +1,6 @@
 # eriste-web
 
-[eriste.app](https://eriste.app) tanıtım sitesi. Astro, statik çıktı, sıfır JavaScript.
+[eriste.app](https://eriste.app) tanıtım sitesi. Astro, statik çıktı; gider hesaplayıcısı ve şifre sıfırlama için küçük istemci betikleri.
 Proje özeti ve marka kuralları: `docs/eriste-web-proje-ozeti.md`.
 
 ## Komutlar
@@ -14,6 +14,8 @@ Proje özeti ve marka kuralları: `docs/eriste-web-proje-ozeti.md`.
 | `npm run brand` | Logo path'leri, teller deseni, favicon seti ve OG görselini yeniden üretir (`public/brand`, `public/images/og.png`, `src/brand/paths.ts`) |
 
 ## Ayarlar
+
+Ana sayfadaki hesaplayıcı kullanıcı tutarlarıyla çalışır; fiyat API'si, analitik, kayıt veya veri gönderimi içermez. CSP için kendi alan adından harici modül yükler. Doğrulama: build sonrasında `npm run check:calculator`. Sekme ikonunu tek başına üretmek için `npm run favicon`; `npm run brand` de aynı sade ikonu korur. Apple/PWA ikonları mevcut marka logosunu kullanır.
 
 TODO olan değerler (`APP_STORE_URL`, `APP_STORE_ID`, `PREMIUM_PRICES`) `src/config.ts` içinde.
 Yasal metinler `src/content/yasal/*.md`; yer tutucular sayfada sarı `TODO` etiketiyle görünür.

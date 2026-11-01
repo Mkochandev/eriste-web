@@ -215,7 +215,7 @@ for (const old of ['noodles-tile-krem.svg', 'noodles-tile-koyu.svg']) fs.rmSync(
 
 // ---------- 4. Favicon seti (gece varyantı) ----------
 const gece = variants.gece;
-fs.writeFileSync(path.join(root, 'public/favicon.svg'), icon(gece));
+await import('./build-favicon.mjs');
 const png = (svg, size, file) =>
   sharp(Buffer.from(svg), { density: Math.ceil((72 * size) / 512) * 2 })
     .resize(size, size)
@@ -225,7 +225,7 @@ await png(icon(gece, false), 180, 'apple-touch-icon.png'); // iOS köşeyi kendi
 await png(icon(gece), 192, 'brand/icon-192.png');
 await png(icon(gece), 512, 'brand/icon-512.png');
 // favicon.ico yerine 32px PNG (tüm modern tarayıcılar destekler)
-await png(icon(gece), 32, 'favicon-32.png');
+// Sekme ikonları build-favicon.mjs tarafından üretilir; kelime logosuyla ezme.
 
 // ---------- 5. OG görseli (1200x630): krem zemin, teller, logo, Kıvırık ----------
 const KIVIRIK_SELAM = `

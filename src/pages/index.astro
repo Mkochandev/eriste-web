@@ -9,6 +9,7 @@ import Pricing from '../components/home/Pricing.astro';
 import FaqSection from '../components/home/FaqSection.astro';
 import FinalCta from '../components/home/FinalCta.astro';
 import Guides from '../components/home/Guides.astro';
+import Calculator from '../components/home/Calculator.astro';
 import { APP_STORE_URL, SITE_NAME, SITE_URL } from '../config';
 
 const description =
@@ -35,6 +36,7 @@ const appJsonLd = {
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(appJsonLd)} />
   <Hero />
+  <Calculator />
   <Steps />
   <Features />
   <Screens />
