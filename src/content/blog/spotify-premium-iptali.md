@@ -40,4 +40,6 @@ Yenilemeyi durdurmak, geçmiş ödemeyi geri almak değildir. İade koşulların
 
 ## Başka bir müzik aboneliğine geçerken
 
+Amacın yalnızca gideri azaltmaksa kapatmadan önce [öğrenci planı seçim rehberini](/blog/ogrenci-abonelikleri-karsilastirma) inceleyebilirsin. Uygunluk ve gerçek kullanım, yalnızca etiket fiyatına bakmaktan daha yararlı bir karşılaştırma sağlar.
+
 Yeni hizmeti denemeden önce mevcut planın bitişini ve yenisinin ödeme gününü yan yana yaz. [YouTube Premium iptal rehberi](/blog/youtube-premium-iptali), diğer aboneliğini de aynı şekilde gözden geçirmeni sağlar. Ödeme kaydın Google Play’deyse [Google Play iptal ve iade adımlarını](/blog/google-play-abonelik-iptali) kullan.

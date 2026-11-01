@@ -26,6 +26,8 @@ related: [youtube-premium-iptali, google-play-abonelik-iptali, netflix-abonelik-
 
 ## Abonelik listede yoksa ne yapmalısın?
 
+Hangi hesaptan ödeme yaptığından emin değilsen [unutulan abonelikleri bulma kontrol listesi](/blog/unutulan-abonelikleri-bulma), farklı hesapların kayıtlarını bir araya getirmene yardımcı olur.
+
 E-postandaki Apple makbuzunu bul ve hangi Apple Hesabı’na ait olduğunu kontrol et. Başka hesabınla alınan abonelik, şu an açık olan hesapta görünmez. Makbuz bir aile üyesinin hesabına aitse iptal işlemini o kişinin yapması gerekir. Apple makbuzu yoksa ödemeyi başka bir şirket almış olabilir.
 
 ## App Store para iadesi nereden istenir?

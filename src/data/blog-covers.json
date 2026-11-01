@@ -1,0 +1,26 @@
+{
+  "butce": {
+    "src": "/images/blog/butce-6515aae977.webp",
+    "small": "/images/blog/butce-6515aae977-600.webp",
+    "og": "/images/blog/butce-6515aae977.png",
+    "alt": "Temsilî bütçe: 150 TL müzik, 250 TL video ve yıllık 1.200 TL araç aboneliği aylık ortalamada 500 TL eder."
+  },
+  "yillik": {
+    "src": "/images/blog/yillik-110b414e57.webp",
+    "small": "/images/blog/yillik-110b414e57-600.webp",
+    "og": "/images/blog/yillik-110b414e57.png",
+    "alt": "Temsilî karşılaştırma: aylık 100 TL ve yıllık 900 TL plan dokuz ayda eşitlenir; altı ayda aylık, on iki ayda yıllık plan daha ucuzdur."
+  },
+  "ogrenci": {
+    "src": "/images/blog/ogrenci-5ab6789d8d.webp",
+    "small": "/images/blog/ogrenci-5ab6789d8d-600.webp",
+    "og": "/images/blog/ogrenci-5ab6789d8d.png",
+    "alt": "Öğrenci aboneliği seçiminde dört kontrol: uygun okul, doğrulama, dahil olan özellikler ve yeniden doğrulama tarihi."
+  },
+  "unutulan": {
+    "src": "/images/blog/unutulan-305baddd1a.webp",
+    "small": "/images/blog/unutulan-305baddd1a-600.webp",
+    "og": "/images/blog/unutulan-305baddd1a.png",
+    "alt": "Unutulan abonelikleri bulmak için dört kaynak birleştirilir: Apple, Google Play, e-posta makbuzları ve ödeme kayıtları."
+  }
+}

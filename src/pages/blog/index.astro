@@ -3,18 +3,27 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogCards from '../../components/BlogCards.astro';
 import { publishedPosts } from '../../lib/blog';
 const posts = await publishedPosts();
+const categories = [
+  { title:'Bütçe ve tasarruf', id:'butce' },
+  { title:'Plan seçimi', id:'plan' },
+  { title:'Abonelik takibi', id:'takip' },
+  { title:'İptal ve iade', id:'iptal' },
+];
 ---
-<BaseLayout title="Abonelik iptal ve para iadesi rehberleri" description="Netflix, Spotify, YouTube Premium, Apple ve Google Play aboneliklerini nasıl iptal edersin? Ödeme kanalına göre adımlar ve iade başvuru yolları.">
+<BaseLayout title="Abonelik rehberleri: bütçe, plan seçimi ve iptal" description="Abonelik bütçeni hesapla, aylık ve yıllık planları karşılaştır, öğrenci indirimlerini ve iptal yollarını öğren. Örnek hesaplar ve resmî kaynaklarla.">
   <section class="section intro"><div class="wrap">
     <span class="pill">erişte blog · Abonelik rehberleri</span>
-    <h1>Abonelik bitirmek<br />bilmece olmasın.</h1>
-    <p>İptal düğmesi nerede? İade için kime başvurulur? Ödemeyi alan yere göre doğru adımı bul, aboneliklerinin kontrolünü eline al.</p>
+    <h1>Abonelik çok.<br />Kafa karışıklığı yok.</h1>
+    <p>Ne ödüyorsun, ne kullanıyorsun, hangi plan sana uygun? Örnek hesaplar ve pratik kontrol listeleriyle aboneliklerini daha bilinçli yönet.</p>
+    <nav aria-label="Yazı konuları">{categories.map(c=><a class="pill" href={`#${c.id}`}>{c.title}</a>)}</nav>
     <a href="/blog/yayin-ilkeleri">Kaynaklarımız ve yayın ilkelerimiz ↗</a>
   </div></section>
-  <section class="wrap listing" aria-label="İptal ve iade rehberleri"><BlogCards posts={posts} /></section>
+  <div class="wrap listing">{categories.map(c=><section class="topic" aria-labelledby={c.id}><h2 id={c.id}>{c.title}</h2><BlogCards posts={posts.filter(p=>p.data.category===c.title)} /></section>)}</div>
 </BaseLayout>
 <style>
   .intro { background:var(--bg-warm); } .intro .wrap { display:grid; gap:24px; justify-items:start; }
   h1 { font-size:clamp(2.6rem,8vw,5rem); max-width:900px; } p { max-width:660px; font-size:1.15rem; color:var(--text-2); }
   .intro a { text-underline-offset:4px; } .listing { padding-block:48px 80px; }
+  nav { display:flex; flex-wrap:wrap; gap:12px; } nav a { text-decoration:none; min-height:40px; }
+  .topic + .topic { margin-top:56px; } .topic > h2 { font-size:2rem; margin-bottom:24px; }
 </style>

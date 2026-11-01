@@ -34,6 +34,8 @@ Bir içerik üreticisine verilen kanal üyeliği, YouTube Premium’dan farklıd
 
 ## İptal sonrası kendi kontrol listen
 
+Plan değiştirmeyi düşünüyorsan [aylık ve yıllık abonelik eşik hesabı](/blog/aylik-mi-yillik-mi-abonelik) ile kullanım süreni karşılaştır. Öğrenciler için ayrıca [Spotify ve YouTube plan seçimi](/blog/ogrenci-abonelikleri-karsilastirma) rehberi var.
+
 İşlemden önce hangi avantajı kapatmak istediğini bir cümleyle yaz: “Reklamsız izleme aboneliğimin yenilenmesini durdurmak istiyorum” gibi. Ardından makbuzdaki ürünün bu hedefle aynı olduğunu kontrol etmeni öneririz.
 
 İşlem tamamlandığında onayı ve bitiş bilgisini sakla. Bir müzik aboneliğin daha varsa iki hizmetin ödeme günlerini yan yana koy. [Spotify Premium rehberi](/blog/spotify-premium-iptali), diğer hesabını da ayrı değerlendirmene yardımcı olur. Böylece bir hizmeti kapatırken tüm müzik aboneliklerinin kapandığını düşünmezsin.

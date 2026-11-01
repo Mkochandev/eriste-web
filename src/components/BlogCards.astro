@@ -1,19 +1,23 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import covers from '../data/blog-covers.json';
 interface Props { posts: CollectionEntry<'blog'>[] }
 const { posts } = Astro.props;
 ---
 <div class="blog-grid">
   {posts.map(post => <article class="card blog-card">
+    {post.data.cover && <a class="cover-link" href={`/blog/${post.id}`} tabindex="-1" aria-hidden="true"><img src={covers[post.data.cover].src} srcset={`${covers[post.data.cover].small} 600w, ${covers[post.data.cover].src} 1200w`} sizes="(min-width: 900px) 340px, (min-width: 640px) 50vw, 100vw" width="1200" height="630" alt="" loading="lazy" decoding="async" /></a>}
     <span class="pill">{post.data.platform}</span>
-    <h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
+    <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
     <p>{post.data.description}</p>
-    <a class="read" href={`/blog/${post.id}`} aria-label={`${post.data.platform} rehberini oku`}>Rehberi oku <span aria-hidden="true">↗</span></a>
+    <a class="read" href={`/blog/${post.id}`} aria-label={`${post.data.title} yazısını oku`}>Yazıyı oku <span aria-hidden="true">↗</span></a>
   </article>)}
 </div>
 <style>
   .blog-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr)); gap:24px; }
   .blog-card { padding:28px; display:flex; flex-direction:column; align-items:flex-start; gap:18px; }
-  h2 { font-size:1.6rem; line-height:1.15; } h2 a { text-decoration:none; } h2 a:hover { text-decoration:underline; }
+  .cover-link { display:block; width:calc(100% + 56px); margin:-28px -28px 4px; }
+  .cover-link img { width:100%; height:auto; border-radius:var(--r-card) var(--r-card) 0 0; }
+  h3 { font-size:1.6rem; line-height:1.15; } h3 a { text-decoration:none; } h3 a:hover { text-decoration:underline; }
   p { color:var(--text-2); } .read { margin-top:auto; padding-top:8px; color:var(--accent-text); font-weight:700; text-underline-offset:4px; }
 </style>

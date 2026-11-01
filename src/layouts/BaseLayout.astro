@@ -16,12 +16,13 @@ interface Props {
   /** Sayfa başlığına " · erişte" eklenmesin (ana sayfa) */
   bareTitle?: boolean;
   ogImage?: string;
+  ogImageAlt?: string;
   /** Arama motorlarına kapalı (404) */
   noindex?: boolean;
   ogType?: 'website' | 'article';
 }
 
-const { title, description, bareTitle = false, ogImage = '/images/og.png', noindex = false, ogType = 'website' } = Astro.props;
+const { title, description, bareTitle = false, ogImage = '/images/og.png', ogImageAlt = 'erişte — bütün aboneliklerin tek kâsede', noindex = false, ogType = 'website' } = Astro.props;
 const fullTitle = bareTitle ? title : `${title} · ${SITE_NAME}`;
 // build.format 'file' yolları /gizlilik.html olarak verir; yayındaki adres uzantısız
 const cleanPath = Astro.url.pathname.replace(/(index)?\.html$/, '');
@@ -37,6 +38,7 @@ const ogUrl = new URL(ogImage, SITE_URL).href;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {!noindex && <meta name="robots" content="max-image-preview:large" />}
 
     <link rel="preload" href={font800} as="font" type="font/woff2" crossorigin />
 
@@ -53,12 +55,14 @@ const ogUrl = new URL(ogImage, SITE_URL).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
     <script type="application/ld+json" set:html={jsonLd({ '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: SITE_NAME, url: SITE_URL, logo: `${SITE_URL}/brand/icon-512.png`, sameAs: SOCIAL_LINKS.map(s => s.href) })} />
 
     {APP_STORE_ID && <meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />}

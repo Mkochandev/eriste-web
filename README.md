@@ -26,6 +26,8 @@ Yasal metinler `src/content/yasal/*.md`; yer tutucular sayfada sarı `TODO` etik
 - `sources` resmî kaynakları, `related` uzantısız yazı kimliklerini içerir. Başlık en fazla 60, açıklama 155 karakterdir; başlık için sitede eklenen ` · erişte` payını bırak.
 - Doğrulama: `npm run build`, ardından `npm run check:seo`.
 - İçerik planı ve ölçüm yaklaşımı: `docs/seo-plan.md`. Haber otomasyonu henüz etkin değildir.
+- İptal dışındaki içerik araştırması ve kullanıcı görevleri: `docs/seo-roadmap.md`.
+- `category` blog konu grubunu, `cover` özgün şemayı seçer. Yeni kapak üretimi: `npm run blog:images`; kaynak `scripts/build-blog-images.mjs`, görsel haritası `src/data/blog-covers.json`. Üretilen dosyaları da commit et.
 
 ## Cloudflare Pages — yayına alma
 
