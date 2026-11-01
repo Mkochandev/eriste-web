@@ -8,7 +8,8 @@ import Privacy from '../components/home/Privacy.astro';
 import Pricing from '../components/home/Pricing.astro';
 import FaqSection from '../components/home/FaqSection.astro';
 import FinalCta from '../components/home/FinalCta.astro';
-import { APP_STORE_URL, SITE_NAME, SITE_URL, SLOGAN } from '../config';
+import Guides from '../components/home/Guides.astro';
+import { APP_STORE_URL, SITE_NAME, SITE_URL } from '../config';
 
 const description =
   'Netflix’ten ChatGPT’ye bütün aboneliklerin tek listede. Fiyatlar kendiliğinden güncellenir, zamları sen kovalamazsın. Banka bağlamak yok, reklam yok, izleme yok.';
@@ -28,7 +29,7 @@ const appJsonLd = {
 ---
 
 <BaseLayout
-  title={`erişte: ${SLOGAN}`}
+  title="erişte: Abonelik Takibi ve Otomatik Fiyat Takibi"
   description={description}
   bareTitle
 >
@@ -40,5 +41,6 @@ const appJsonLd = {
   <Privacy />
   <Pricing />
   <FaqSection />
+  <Guides />
   <FinalCta />
 </BaseLayout>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCards from '../../components/BlogCards.astro';
+import { publishedPosts } from '../../lib/blog';
+const posts = await publishedPosts();
+---
+<BaseLayout title="Abonelik iptal ve para iadesi rehberleri" description="Netflix, Spotify, YouTube Premium, Apple ve Google Play aboneliklerini nasıl iptal edersin? Ödeme kanalına göre adımlar ve iade başvuru yolları.">
+  <section class="section intro"><div class="wrap">
+    <span class="pill">erişte blog · Abonelik rehberleri</span>
+    <h1>Abonelik bitirmek<br />bilmece olmasın.</h1>
+    <p>İptal düğmesi nerede? İade için kime başvurulur? Ödemeyi alan yere göre doğru adımı bul, aboneliklerinin kontrolünü eline al.</p>
+    <a href="/blog/yayin-ilkeleri">Kaynaklarımız ve yayın ilkelerimiz ↗</a>
+  </div></section>
+  <section class="wrap listing" aria-label="İptal ve iade rehberleri"><BlogCards posts={posts} /></section>
+</BaseLayout>
+<style>
+  .intro { background:var(--bg-warm); } .intro .wrap { display:grid; gap:24px; justify-items:start; }
+  h1 { font-size:clamp(2.6rem,8vw,5rem); max-width:900px; } p { max-width:660px; font-size:1.15rem; color:var(--text-2); }
+  .intro a { text-underline-offset:4px; } .listing { padding-block:48px 80px; }
+</style>

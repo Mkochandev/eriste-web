@@ -18,7 +18,16 @@ Proje özeti ve marka kuralları: `docs/eriste-web-proje-ozeti.md`.
 TODO olan değerler (`APP_STORE_URL`, `APP_STORE_ID`, `PREMIUM_PRICES`) `src/config.ts` içinde.
 Yasal metinler `src/content/yasal/*.md`; yer tutucular sayfada sarı `TODO` etiketiyle görünür.
 
-## Cloudflare Pages
+## Blog ve SEO
+
+- İçerikler `src/content/blog/*.md`; alanlar `src/content.config.ts` içinde doğrulanır.
+- Yeni içerik varsayılan olarak taslaktır. Yayımlanacak içerikte `draft: false` ve geçmiş/bugünkü `published` tarihi gerekir. Taslaklar ve gelecekteki yazılar sayfa, kart ve sitemap üretmez.
+- `updated` yalnızca kaynak kontrolü veya gerçek içerik değişikliği yapıldığında güncellenir.
+- `sources` resmî kaynakları, `related` uzantısız yazı kimliklerini içerir. Başlık en fazla 60, açıklama 155 karakterdir; başlık için sitede eklenen ` · erişte` payını bırak.
+- Doğrulama: `npm run build`, ardından `npm run check:seo`.
+- İçerik planı ve ölçüm yaklaşımı: `docs/seo-plan.md`. Haber otomasyonu henüz etkin değildir.
+
+## Cloudflare Pages — yayına alma
 
 - Build komutu: `npm run build`, çıktı klasörü: `dist`, Node 22.
 - Güvenlik başlıkları ve CSP: `public/_headers`. Siteye harici bir kaynak eklenirse CSP'yi güncelle.

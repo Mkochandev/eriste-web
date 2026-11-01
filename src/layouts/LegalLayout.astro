@@ -7,9 +7,10 @@ interface Props {
   title: string;
   description: string;
   kicker?: string;
+  updated?: string;
 }
 
-const { title, description, kicker = 'Yasal' } = Astro.props;
+const { title, description, kicker = 'Yasal', updated = LEGAL_UPDATED } = Astro.props;
 const body = addTableLabels(await Astro.slots.render('default'));
 ---
 
@@ -18,7 +19,7 @@ const body = addTableLabels(await Astro.slots.render('default'));
     <div class="wrap narrow">
       <span class="pill">{kicker}</span>
       <h1>{title}</h1>
-      <p class="updated">Son güncelleme: {LEGAL_UPDATED}</p>
+      <p class="updated">Son güncelleme: {updated}</p>
     </div>
   </section>
   <article class="wrap narrow prose">

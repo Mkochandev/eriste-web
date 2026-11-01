@@ -7,7 +7,8 @@ import '../styles/global.css';
 import font800 from '@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-800-normal.woff2?url';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { APP_STORE_ID, SITE_NAME, SITE_URL } from '../config';
+import { APP_STORE_ID, SITE_NAME, SITE_URL, SOCIAL_LINKS } from '../config';
+import { jsonLd } from '../lib/blog';
 
 interface Props {
   title: string;
@@ -17,9 +18,10 @@ interface Props {
   ogImage?: string;
   /** Arama motorlarına kapalı (404) */
   noindex?: boolean;
+  ogType?: 'website' | 'article';
 }
 
-const { title, description, bareTitle = false, ogImage = '/images/og.png', noindex = false } = Astro.props;
+const { title, description, bareTitle = false, ogImage = '/images/og.png', noindex = false, ogType = 'website' } = Astro.props;
 const fullTitle = bareTitle ? title : `${title} · ${SITE_NAME}`;
 // build.format 'file' yolları /gizlilik.html olarak verir; yayındaki adres uzantısız
 const cleanPath = Astro.url.pathname.replace(/(index)?\.html$/, '');
@@ -44,7 +46,7 @@ const ogUrl = new URL(ogImage, SITE_URL).href;
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#15131A" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:title" content={fullTitle} />
@@ -57,6 +59,7 @@ const ogUrl = new URL(ogImage, SITE_URL).href;
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogUrl} />
+    <script type="application/ld+json" set:html={jsonLd({ '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: SITE_NAME, url: SITE_URL, logo: `${SITE_URL}/brand/icon-512.png`, sameAs: SOCIAL_LINKS.map(s => s.href) })} />
 
     {APP_STORE_ID && <meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />}
     <slot name="head" />

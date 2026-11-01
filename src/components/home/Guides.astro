@@ -1,0 +1,9 @@
+---
+import BlogCards from '../BlogCards.astro';
+import { publishedPosts } from '../../lib/blog';
+const posts = (await publishedPosts()).filter(p => ['netflix-abonelik-iptali','spotify-premium-iptali','youtube-premium-iptali'].includes(p.id));
+---
+<section class="section"><div class="wrap">
+  <div class="section-head"><span class="pill">Abonelik rehberleri</span><h2>İptal nereden, iade kimden?</h2><p>Ödemeyi alan yere göre doğru adımları bul. Resmî kaynaklara dayanan kısa rehberlerle işini kolaylaştır.</p><a href="/blog">Bütün rehberlere göz at ↗</a></div>
+  <BlogCards posts={posts} />
+</div></section>

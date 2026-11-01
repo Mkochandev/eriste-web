@@ -10,6 +10,7 @@ const isHome = Astro.url.pathname === '/';
       <Logo class="header-logo" />
     </a>
     <nav aria-label="Ana menü">
+      <a href="/blog" class="nav-link">Blog</a>
       <a href="/destek" class="nav-link">Destek</a>
       <a href={isHome ? '#indir' : '/#indir'} class="btn btn-sm">İndir</a>
     </nav>
@@ -41,7 +42,7 @@ const isHome = Astro.url.pathname === '/';
     gap: 6px;
   }
   .nav-link {
-    padding: 10px 14px;
+    padding: 10px 10px;
     border-radius: var(--r-pill);
     color: var(--text-2);
     font-family: var(--font-display);
@@ -56,5 +57,10 @@ const isHome = Astro.url.pathname === '/';
     min-height: 40px;
     padding: 8px 18px;
     font-size: 0.9375rem;
+  }
+  @media (max-width: 420px) {
+    .home :global(.header-logo) { width: 76px; }
+    .nav-link { padding-inline: 6px; }
+    .btn-sm { padding-inline: 12px; }
   }
 </style>
