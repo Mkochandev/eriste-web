@@ -1,45 +1,59 @@
 ---
 import AppStoreBadge from '../AppStoreBadge.astro';
-const services = ['Netflix', 'Spotify', 'YouTube Premium', 'iCloud+', 'Diğer abonelik'];
 ---
-<section id="abonelik-hesabi" class="section" aria-labelledby="calculator-title">
-  <div class="wrap">
-    <div class="section-head"><span class="pill">İndirmeden dene</span><h2 id="calculator-title">Küçük ödemeler toplamda ne ediyor?</h2><p>Kullandığın hizmetleri seç, kendi ödediğin tutarları TL olarak gir. Aylık ortalamanı ve yıllık karşılığını birlikte gör.</p></div>
-    <div class="calculator card">
-      <form id="subscription-calculator">
-        <fieldset><legend>Aboneliklerin</legend>
-          {services.map((service, i)=><div class="service" data-service>
-            <label class="service-name"><input type="checkbox" data-enabled />{service}</label>
-            <label class="field" for={`amount-${i}`}><span>Ödediğin tutar (TL)</span><input id={`amount-${i}`} data-amount data-detail type="number" inputmode="decimal" min="0" max="1000000" step="0.01" required disabled placeholder="0,00" /></label>
-            <label class="field" for={`period-${i}`}><span>Ödeme dönemi</span><select id={`period-${i}`} data-period data-detail disabled><option value="monthly">Aylık</option><option value="yearly">Yıllık</option></select></label>
-            <label class="consider"><input type="checkbox" data-removable data-detail disabled />Bırakmayı düşünüyorum</label>
-          </div>)}
-        </fieldset>
-        <div class="buttons"><button type="submit" class="btn" disabled>Toplamı hesapla</button><button type="reset" class="reset" disabled>Temizle</button></div>
-        <noscript><p>Hesaplayıcı için JavaScript gerekir. <a href="/blog/abonelik-butcesi-hesaplama">Elle hesaplama rehberini</a> kullanabilirsin.</p></noscript>
-      </form>
-      <p id="subscription-status" role="status" aria-live="polite" aria-atomic="true"></p>
-      <div id="subscription-result" hidden>
-        <dl><div><dt>Aylık ortalama</dt><dd data-monthly></dd></div><div><dt>12 aylık karşılığı</dt><dd data-yearly></dd></div></dl>
-        <p data-saving-line hidden>Bırakmayı düşündüğün hizmetleri yenilemezsen, tam bir yıllık dönemdeki giderin <strong data-saving></strong> daha düşük olabilir.</p>
-        <p class="note">Fiyatların değişmediği ve hizmetlerin 12 ay sürdüğü varsayılır. Yıllık bedel ortalama için 12’ye bölünür; gerçek ödeme takvimin farklıdır. Olası düşüş, mevcut dönem için iade veya garanti tasarruf değildir.</p>
-        <h3>Bu listeyi her ay yeniden kurma.</h3><p>erişte ile aboneliklerini ve yaklaşan ödemelerini bir arada takip et.</p><AppStoreBadge />
-      </div>
-      <p class="note">Bu hesaplama yalnızca tarayıcında yapılır. Girdiğin tutarlar gönderilmez veya kaydedilmez. Bu araç güncel platform fiyatlarını otomatik getirmez.</p>
-      <a class="guide" href="/blog/abonelik-butcesi-hesaplama">Aylık ortalama ile ödeme takvimi arasındaki fark →</a>
-    </div>
-  </div>
+<section id="abonelik-hesabi" class="demo-strip" aria-labelledby="demo-title">
+  <div class="wrap"><div class="demo-invite card">
+    <div><span class="pill">İndirmeden dene</span><h2 id="demo-title">Fiyat yazma. Planını seç.</h2><p>Uygulamadaki katalogla kendi abonelik listeni oluştur.</p></div>
+    <button class="btn" id="open-catalog" type="button" disabled>Kataloğu dene ↗</button>
+    <noscript><p>Demo için JavaScript gerekir. <a href="#screens-title">Uygulama ekranlarına göz at.</a></p></noscript>
+  </div></div>
 </section>
-<script is:inline type="module" src="/scripts/subscription-calculator.v1.js"></script>
+<dialog id="catalog-demo" aria-labelledby="catalog-title" class="on-dark">
+  <div class="demo-shell">
+    <header><span class="brand">erişte <small>web demosu</small></span><button type="button" id="close-catalog" aria-label="Demoyu kapat">✕</button></header>
+    <nav aria-label="Demo ekranları"><button type="button" data-tab="catalog" aria-pressed="true">Katalog</button><button type="button" data-tab="list" aria-pressed="false">Listem <span id="list-count">0</span></button></nav>
+    <div class="screen" id="catalog-screen">
+      <h2 id="catalog-title">Katalog</h2>
+      <label class="sr-only" for="catalog-search">Uygulama ara</label><input type="search" id="catalog-search" placeholder="Uygulama ara…" autocomplete="off" />
+      <div id="catalog-filters" class="filters" aria-label="Kategoriler"></div>
+      <p id="catalog-status" role="status" aria-live="polite">Katalog yükleniyor…</p>
+      <button type="button" id="catalog-retry" hidden>Yeniden dene</button>
+      <div id="catalog-items" class="items"></div>
+    </div>
+    <div class="screen" id="plan-screen" hidden>
+      <button type="button" id="back-catalog">← Kataloğa dön</button>
+      <h2 id="plan-title" tabindex="-1">Planını seç</h2><p class="hint">Fiyat hazır. Sana uygun planı seçmen yeterli.</p>
+      <div id="plan-items" class="items"></div>
+    </div>
+    <div class="screen" id="list-screen" hidden>
+      <h2 tabindex="-1" id="list-title">Aboneliklerin</h2><div id="selected-items" class="items"></div>
+      <button type="button" id="add-more">＋ Abonelik ekle</button>
+    </div>
+    <footer>
+      <div class="totals" aria-live="polite" aria-atomic="true"><div><small>Aylık ortalama</small><strong id="demo-monthly">₺0,00</strong></div><div><small>Yıllık karşılık</small><strong id="demo-yearly">₺0,00</strong></div></div>
+      <details><summary>Fiyatlar ve demo hakkında</summary><p>Uygulamanın kataloğu kullanılır; son kontrol tarihi ve kaynak planlarda gösterilir. Dövizli planlar yaklaşık TL karşılığıdır. Yıllık ücret aylık ortalama için 12’ye bölünür. Fiyatlar değişebilir; tutarlar ödeme veya tasarruf garantisi değildir. Seçimlerin kaydedilmez, uygulamaya aktarılmaz ve sunucuya gönderilmez.</p></details>
+      <AppStoreBadge />
+    </footer>
+  </div>
+</dialog>
+<script is:inline type="module" src="/scripts/catalog-demo.v2.js"></script>
 <style>
- .calculator { padding:clamp(20px,4vw,40px); } fieldset { border:0; padding:0; margin:0; min-width:0; } legend { font-weight:700; margin-bottom:12px; }
- .service { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:12px 20px; padding:20px 0; border-bottom:1px solid var(--line); align-items:center; }
- .service-name,.consider { display:flex; align-items:center; gap:10px; } .service-name { font-weight:700; } .consider { grid-column:2 / -1; font-size:.9rem; }
- .field { display:grid; gap:6px; font-size:.85rem; } input[type=number],select { min-width:0; width:100%; border:1px solid var(--text-2); border-radius:10px; padding:12px; background:var(--bg); color:var(--text); font:inherit; font-size:1rem; }
- input[type=checkbox] { width:20px; height:20px; flex:none; accent-color:var(--accent-text); } input:disabled,select:disabled { opacity:.45; }
- .buttons { display:flex; gap:24px; align-items:center; padding-top:24px; } button { cursor:pointer; border:0; } button:disabled { opacity:.5; cursor:not-allowed; } .reset { background:none; color:var(--text); text-decoration:underline; font:inherit; padding:12px; }
- #subscription-result:not([hidden]) { display:grid; gap:18px; justify-items:start; background:var(--bg-warm); padding:24px; border-radius:20px; margin-block:24px; }
- dl { display:flex; flex-wrap:wrap; gap:24px 48px; margin:0; } dt { color:var(--text-2); } dd { font-family:var(--font-display); font-size:clamp(1.6rem,5vw,2.4rem); margin:0; font-weight:800; overflow-wrap:anywhere; }
- .note { font-size:.9rem; color:var(--text-2); margin-top:16px; } .guide { display:inline-block; margin-top:14px; text-underline-offset:4px; } #subscription-status:not(:empty) { margin-top:20px; }
- @media(max-width:600px) { .service { grid-template-columns:1fr 1fr; } .service-name,.consider { grid-column:1 / -1; } }
+ .demo-strip { padding-block:28px; } .demo-invite { padding:28px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+ .demo-invite h2 { font-size:clamp(1.6rem,4vw,2.2rem); margin-block:12px 8px; } .demo-invite p { color:var(--text-2); } .demo-invite .btn { flex:none; border:0; cursor:pointer; }
+ dialog { padding:0; border:1px solid #35323d; border-radius:28px; width:min(440px,calc(100vw - 24px)); max-height:calc(100dvh - 32px); color:#f5f3f7; background:#0f0e13; box-shadow:0 24px 100px #0008; }
+ dialog::backdrop { background:#08070bb8; backdrop-filter:blur(5px); } .demo-shell { height:min(740px,calc(100dvh - 36px)); display:flex; flex-direction:column; }
+ header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px 8px; } .brand { font-family:var(--font-display); color:#ffc53d; font-weight:800; font-size:1.3rem; } .brand small { font:400 .75rem var(--font-body); color:#a9a5b0; margin-left:8px; }
+ dialog :global(button) { font:inherit; cursor:pointer; background:transparent; color:inherit; border:0; min-height:44px; border-radius:12px; padding:10px 12px; } dialog :global(button:hover) { background:#302c39; } button:disabled { opacity:.5; cursor:not-allowed; }
+ nav { display:flex; padding:0 20px 12px; gap:8px; } nav button { flex:1; font-weight:700; background:#1c1a22; } nav button[aria-pressed=true] { background:#ffc53d; color:#15131a; }
+ .screen { padding:12px 20px 20px; overflow-y:auto; min-height:140px; flex:1; overscroll-behavior:contain; } .screen h2 { font-size:2rem; margin-bottom:18px; } [hidden] { display:none !important; }
+ input { width:100%; border:1px solid #35323d; border-radius:20px; padding:14px 16px; color:#f5f3f7; background:#1c1a22; font:inherit; margin-bottom:14px; }
+ .filters { display:flex; gap:8px; overflow-x:auto; padding-bottom:12px; } .filters :global(button) { flex:none; border:1px solid #5f5b66; border-radius:30px; font-size:.85rem; white-space:nowrap; }
+ .filters :global(button[aria-pressed=true]) { color:#15131a; background:#ffc53d; border-color:#ffc53d; }
+ .items { display:grid; gap:10px; } .items :global(.service-row),.items :global(.plan-row),.items :global(.selected-row) { display:flex; align-items:center; gap:12px; width:100%; text-align:left; background:#1c1a22; border-radius:20px; padding:16px; }
+ .items :global(.symbol) { width:42px; height:42px; border-radius:14px; background:#ffc53d; color:#15131a; display:grid; place-items:center; flex:none; font-weight:800; }
+ .items :global(.copy) { flex:1; min-width:0; overflow-wrap:anywhere; } .items :global(strong),.items :global(small) { display:block; } .items :global(small),.hint { font-size:.8rem; color:#a9a5b0; } .items :global(.plus) { font-size:1.5rem; color:#ffc53d; }
+ .items :global(.plan-card) { border:1px solid #35323d; border-radius:20px; overflow:hidden; } .items :global(.plan-row) { border-radius:0; } .items :global(.source) { display:block; padding:0 16px 12px; font-size:.75rem; color:#bcb8c5; }
+ .hint { margin-bottom:16px; } #catalog-status:empty { display:none; } #catalog-status { margin-bottom:12px; }
+ footer { border-top:1px solid #35323d; padding:16px 20px; display:grid; gap:10px; background:#17151c; } .totals { display:flex; justify-content:space-between; gap:12px; } .totals small { display:block; color:#a9a5b0; font-size:.75rem; } .totals strong { font:800 1.35rem var(--font-display); } details { font-size:.75rem; color:#a9a5b0; } details p { margin-top:8px; max-height:95px; overflow:auto; } summary { cursor:pointer; }
+ @media(max-width:600px) { .demo-invite { padding:24px; align-items:flex-start; flex-direction:column; gap:16px; } }
 </style>

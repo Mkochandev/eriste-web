@@ -15,7 +15,7 @@ Proje özeti ve marka kuralları: `docs/eriste-web-proje-ozeti.md`.
 
 ## Ayarlar
 
-Ana sayfadaki hesaplayıcı kullanıcı tutarlarıyla çalışır; fiyat API'si, analitik, kayıt veya veri gönderimi içermez. CSP için kendi alan adından harici modül yükler. Doğrulama: build sonrasında `npm run check:calculator`. Sekme ikonunu tek başına üretmek için `npm run favicon`; `npm run brand` de aynı sade ikonu korur. Apple/PWA ikonları mevcut marka logosunu kullanır.
+Ana sayfadaki kompakt katalog demosu açıldığında `https://api.eriste.app/api/catalog` üzerinden uygulamanın herkese açık planlarını okur. Servis → plan → liste akışında fiyat elle girilmez. Seçimler yalnızca sayfanın belleğindedir; API'ye gönderilmez veya uygulamaya aktarılmaz. Katalog hatasında yeniden deneme gösterilir, fiyat uydurulmaz. Ana sayfanın CSP kuralı bu API'ye izin verir; ek dış logo servisi kullanılmaz. Doğrulama: build sonrasında `npm run check:calculator`. Sekme ikonunu tek başına üretmek için `npm run favicon`; `npm run brand` de aynı sade ikonu korur. Apple/PWA ikonları mevcut marka logosunu kullanır.
 
 TODO olan değerler (`APP_STORE_URL`, `APP_STORE_ID`, `PREMIUM_PRICES`) `src/config.ts` içinde.
 Yasal metinler `src/content/yasal/*.md`; yer tutucular sayfada sarı `TODO` etiketiyle görünür.

@@ -1,21 +1,20 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { calculateSubscriptions } from '../public/scripts/subscription-math.v1.mjs';
-assert.deepEqual(calculateSubscriptions([]), { monthly:0, yearly:0, removableYearly:0 });
-assert.deepEqual(calculateSubscriptions([
-  {amount:150,period:'monthly',removable:false},
-  {amount:250,period:'monthly',removable:true},
-  {amount:1200,period:'yearly',removable:true},
-]), {monthly:500,yearly:6000,removableYearly:4200});
-const fractional = calculateSubscriptions([{amount:99.99,period:'yearly',removable:true}]);
-assert(Math.abs(fractional.yearly-99.99)<1e-9);
-assert(Math.abs(fractional.removableYearly-99.99)<1e-9);
-assert.deepEqual(calculateSubscriptions([{amount:0,period:'monthly',removable:true}]), {monthly:0,yearly:0,removableYearly:0});
-for(const amount of [-1,NaN,Infinity,1000001]) assert.throws(()=>calculateSubscriptions([{amount,period:'monthly'}]),RangeError);
-assert.throws(()=>calculateSubscriptions([{amount:10,period:'weekly'}]),RangeError);
-const html = fs.readFileSync('dist/index.html','utf8');
-assert(html.includes('src="/scripts/subscription-calculator.v1.js"'));
-assert(html.includes('id="subscription-calculator"'));
-assert(!/<script(?![^>]*(?:src=|application\/ld\+json))[^>]*>[^<]+/.test(html), 'Unexpected inline executable script conflicts with CSP');
-for (const file of ['subscription-calculator.v1.js','subscription-math.v1.mjs']) assert(fs.existsSync(`dist/scripts/${file}`));
-console.log('Calculator: mixed periods, removable totals, rounding, zero, invalid input and CSP-compatible output OK.');
+import {normalizeCatalog,catalogTotals} from '../public/scripts/catalog-data.v2.mjs';
+const plan={id:'p1',plan_name:'Aylık',current_price_try:150,currency:'TRY',billing_cycle:'monthly',category:'Müzik',source_url:'https://example.com/price'};
+const apps=normalizeCatalog({catalog:[{app_name:'Örnek',plans:[plan,{...plan,id:'p2',current_price_try:1200,billing_cycle:'yearly'}, {...plan,id:'bad',current_price_try:null}, {...plan,id:'bad2',current_price_try:-1}, {...plan,id:'bad3',billing_cycle:'weekly'}]}]});
+assert.equal(apps[0].plans.length,2);
+assert.deepEqual(catalogTotals(apps[0].plans),{monthly:250,yearly:3000});
+assert.deepEqual(catalogTotals([]),{monthly:0,yearly:0});
+assert.throws(()=>normalizeCatalog({}));
+assert.equal(normalizeCatalog({catalog:[{app_name:'Test',plans:[{...plan,source_url:'javascript:alert(1)'}]}]})[0].plans[0].source,null);
+const selected=new Map(); selected.set('Örnek',apps[0].plans[0]); selected.set('Örnek',apps[0].plans[1]);
+assert.equal(selected.size,1); assert.deepEqual(catalogTotals([...selected.values()]),{monthly:100,yearly:1200});
+selected.delete('Örnek'); assert.equal(catalogTotals([...selected.values()]).monthly,0);
+const html=fs.readFileSync('dist/index.html','utf8');
+assert(html.includes('src="/scripts/catalog-demo.v2.js"'));
+assert(html.includes('<dialog')); assert(!html.includes('type="number"'));
+assert(!html.includes('subscription-calculator.v1.js'));
+assert(fs.existsSync('dist/scripts/catalog-data.v2.mjs'));
+assert(fs.readFileSync('dist/_headers','utf8').includes("connect-src 'self' https://api.eriste.app"));
+console.log('Catalog normalization, invalid prices, totals, plan replacement/removal and built demo checks passed.');

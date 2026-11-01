@@ -13,7 +13,12 @@
 /brand/*
   Cache-Control: public, max-age=604800
 
-# Şifre sıfırlama: sitedeki tek satır içi script ve tek harici istek (api.eriste.app).
+# Ana sayfa demosu açıldığında herkese açık uygulama kataloğunu okur.
+/
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.eriste.app; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+
+# Şifre sıfırlama: satır içi script ve API bağlantısı (api.eriste.app).
 # Genel CSP kaldırılıp yerine genişletilmiş hali konur (iki CSP yan yana olsa tarayıcı ikisini
 # birden uygular ve istek yine engellenir). SIFRE_SIFIRLA_SCRIPT_HASH build sonunda
 # astro.config.mjs'teki entegrasyonla script'in gerçek sha256 özetiyle değiştirilir.

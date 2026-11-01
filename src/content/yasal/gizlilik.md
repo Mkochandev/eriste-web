@@ -42,6 +42,8 @@ Uygulamada da bu sitede de **izleme yok**. Uygulamada üçüncü taraf reklam ve
 
 ## Verilerini kimlerle paylaşıyoruz?
 
+Web sitesindeki katalog demosunu açtığında, tarayıcın plan ve fiyat listesini almak için erişte API'sine bağlanır. Bağlantı sırasında IP adresi gibi teknik bilgiler sunucu tarafından işlenebilir. Demoda seçtiğin abonelikler yalnızca sayfanın belleğinde tutulur; sunucuya gönderilmez, kalıcı olarak kaydedilmez ve uygulama hesabına aktarılmaz.
+
 Verilerini satmıyoruz ve reklam amacıyla kimseyle paylaşmıyoruz. Uygulamanın çalışması için aşağıdaki hizmet sağlayıcılarla çalışıyoruz:
 
 | Hizmet | Ne için | Konum |
